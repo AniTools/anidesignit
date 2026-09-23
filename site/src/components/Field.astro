@@ -1,0 +1,69 @@
+---
+/* Ported from _ds TextField.jsx / Textarea.jsx — one component since the two
+   differ only by element and rows. */
+interface Props {
+  label: string;
+  name: string;
+  type?: string;
+  as?: 'input' | 'textarea';
+  placeholder?: string;
+  required?: boolean;
+  rows?: number;
+  class?: string;
+}
+const {
+  label,
+  name,
+  type = 'text',
+  as = 'input',
+  placeholder,
+  required = false,
+  rows = 4,
+  class: className,
+} = Astro.props;
+---
+
+<label class:list={['ds-field', className]}>
+  <span class="label">{label}{required && <span class="req"> *</span>}</span>
+  {
+    as === 'textarea' ? (
+      <textarea name={name} placeholder={placeholder} required={required} rows={rows} />
+    ) : (
+      <input name={name} type={type} placeholder={placeholder} required={required} />
+    )
+  }
+</label>
+
+<style>
+  .ds-field { display: block; }
+  .label {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: var(--text-label);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    color: var(--ink-600);
+    margin-bottom: var(--space-2);
+  }
+  .req { color: var(--coral-500); }
+  input,
+  textarea {
+    width: 100%;
+    font-family: var(--font-sans);
+    font-size: var(--text-body-md);
+    color: var(--ink-700);
+    background: var(--surface-card);
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+    outline: none;
+    box-shadow: var(--shadow-inset-hairline);
+    transition: box-shadow var(--duration-fast) var(--ease-out);
+  }
+  textarea { line-height: var(--leading-body); resize: vertical; }
+  input:focus,
+  textarea:focus { box-shadow: var(--ring-focus); }
+  input:user-invalid,
+  textarea:user-invalid { box-shadow: inset 0 0 0 1px var(--status-error); }
+</style>

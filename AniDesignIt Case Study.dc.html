@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/anidesignit-design-system-87c46871-c258-4555-b81c-5a0893da3517/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/anidesignit-design-system-87c46871-c258-4555-b81c-5a0893da3517/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/anidesignit-design-system-87c46871-c258-4555-b81c-5a0893da3517/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/anidesignit-design-system-87c46871-c258-4555-b81c-5a0893da3517/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/anidesignit-design-system-87c46871-c258-4555-b81c-5a0893da3517/tokens/effects.css">
+  <link rel="stylesheet" href="_ds/anidesignit-design-system-87c46871-c258-4555-b81c-5a0893da3517/tokens/base.css">
+  <link rel="stylesheet" href="_ds/anidesignit-design-system-87c46871-c258-4555-b81c-5a0893da3517/styles.css">
+  <script src="_ds/anidesignit-design-system-87c46871-c258-4555-b81c-5a0893da3517/_ds_bundle.js"></script>
+  <script src="data.js"></script>
+  <style>
+    html, body { margin: 0; padding: 0; background: var(--blush-025, #FFFBFA); }
+    a { color: var(--coral-500, #FF725E); }
+    a:hover { color: var(--coral-600, #e55a47); }
+    @media (max-width: 1024px) {
+      .c-body { grid-template-columns: 1fr !important; gap: 40px !important; }
+      .c-rail { position: static !important; }
+      .c-chapter { grid-template-columns: 1fr !important; gap: 8px !important; }
+      .c-gallery { grid-template-columns: 1fr 1fr !important; }
+    }
+    @media (max-width: 768px) {
+      .c-pad { padding-left: 20px !important; padding-right: 20px !important; }
+      .c-title { font-size: 2.4rem !important; }
+      .c-hero-img { height: 46vh !important; }
+      .c-gallery { grid-template-columns: 1fr !important; }
+      .c-nav-pair { grid-template-columns: 1fr !important; }
+      .c-railgrid { grid-template-columns: 1fr 1fr !important; }
+      .c-lead { font-size: 1.35rem !important; max-width: none !important; }
+    }
+  </style>
+</helmet>
+<div style="background: var(--blush-025); color: var(--text-body); font-family: var(--font-sans); min-height: 100vh; padding-bottom: var(--space-20)">
+
+  <header class="c-pad" style="position: sticky; top: 0; z-index: 40; height: 72px; display: flex; align-items: center; justify-content: space-between; gap: var(--space-6); padding: 0 clamp(24px, 6vw, 96px); background: color-mix(in srgb, var(--blush-025) 88%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-hairline)">
+    <a href="AniDesignIt Landing.dc.html" style="display: flex; align-items: center; gap: 10px; font-size: var(--text-caption); font-weight: 600; text-transform: uppercase; letter-spacing: var(--tracking-label); color: var(--ink-700); text-decoration: none">
+      <x-import component-from-global-scope="AniDesignItDesignSystem_87c468.Icon" name="arrow-left" size="16" hint-size="16px,16px"></x-import>
+      <span>All work</span>
+    </a>
+    <span style="font-size: var(--text-caption); font-weight: 600; color: var(--ink-400); font-variant-numeric: tabular-nums">{{ counter }}</span>
+  </header>
+
+  <section class="c-pad" style="padding: clamp(48px, 7vw, 104px) clamp(24px, 6vw, 96px) var(--space-10); max-width: var(--max-content); margin: 0 auto">
+    <div style="display: flex; flex-direction: column; gap: var(--space-5); align-items: flex-start; animation: ani-fade-in-up 800ms cubic-bezier(0,0,0.2,1) both">
+      <div style="display: flex; align-items: center; gap: var(--space-3); font-size: var(--text-label); font-weight: 600; text-transform: uppercase; letter-spacing: var(--tracking-eyebrow); color: var(--coral-500)">
+        <span>Case Study</span><span style="color: var(--ink-300)">·</span><span>{{ year }}</span>
+      </div>
+      <h1 class="c-title" style="font-family: var(--font-title); font-weight: 700; font-size: clamp(2.8rem, 6.4vw, 5rem); line-height: var(--leading-display); letter-spacing: -0.02em; color: var(--text-title); margin: 0; max-width: 18ch; text-wrap: pretty">{{ name }}</h1>
+      <p style="font-weight: 600; font-style: italic; font-size: var(--text-h4); line-height: var(--leading-subtitle); color: var(--text-accent); margin: 0; max-width: 40ch">{{ subtitle }}</p>
+    </div>
+  </section>
+
+  <div class="c-pad" style="padding: 0 clamp(24px, 6vw, 96px); max-width: var(--max-content); margin: 0 auto">
+    <div class="c-hero-img" style="height: min(64vh, 620px); border-radius: var(--radius-xl); overflow: hidden; background: var(--blush-200); box-shadow: var(--shadow-md); animation: ani-scale-in 600ms cubic-bezier(0,0,0.2,1) 120ms both">{{ heroImg }}</div>
+  </div>
+
+  <div class="c-body c-pad" style="display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: clamp(40px, 7vw, 104px); max-width: var(--max-content); margin: 0 auto; padding: clamp(48px, 6vw, 88px) clamp(24px, 6vw, 96px) 0; align-items: start">
+
+    <aside class="c-rail" style="position: sticky; top: 104px; display: flex; flex-direction: column; gap: var(--space-6)">
+      <div class="c-railgrid" style="display: flex; flex-direction: column; gap: var(--space-5)">
+        <div style="display: flex; flex-direction: column; gap: 6px">
+          <span style="font-size: var(--text-caption); font-weight: 600; text-transform: uppercase; letter-spacing: var(--tracking-label); color: var(--ink-400)">Client</span>
+          <span style="font-size: var(--text-body-sm); color: var(--text-body); font-weight: 600">{{ client }}</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 6px">
+          <span style="font-size: var(--text-caption); font-weight: 600; text-transform: uppercase; letter-spacing: var(--tracking-label); color: var(--ink-400)">Role</span>
+          <span style="font-size: var(--text-body-sm); color: var(--text-body); font-weight: 600">{{ role }}</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 6px">
+          <span style="font-size: var(--text-caption); font-weight: 600; text-transform: uppercase; letter-spacing: var(--tracking-label); color: var(--ink-400)">Year</span>
+          <span style="font-size: var(--text-body-sm); color: var(--text-body); font-weight: 600; font-variant-numeric: tabular-nums">{{ year }}</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px">
+          <span style="font-size: var(--text-caption); font-weight: 600; text-transform: uppercase; letter-spacing: var(--tracking-label); color: var(--ink-400)">Tools</span>
+          <div style="display: flex; flex-wrap: wrap; gap: var(--space-2)">
+            <sc-for list="{{ tools }}" as="t" hint-placeholder-count="4">
+              <x-import component-from-global-scope="AniDesignItDesignSystem_87c468.Tag" hint-size="auto,26px">{{ t }}</x-import>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+      <span style="height: 1px; background: var(--border-hairline)"></span>
+      <x-import component-from-global-scope="AniDesignItDesignSystem_87c468.Button" variant="primary" icon="calendar" href="https://calendar.app.google/Ltp15FQaPxhoeaZS9" hint-size="auto,48px">Start a project</x-import>
+    </aside>
+
+    <main style="display: flex; flex-direction: column; gap: clamp(48px, 6vw, 88px); min-width: 0">
+      <p class="c-lead" style="font-family: var(--font-title); font-weight: 700; font-size: var(--text-h3); line-height: 1.35; color: var(--text-title); margin: 0; max-width: 26ch; text-wrap: pretty">{{ summary }}</p>
+
+      <sc-for list="{{ chapters }}" as="ch" hint-placeholder-count="3">
+        <section class="c-chapter" style="display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: var(--space-6); align-items: start">
+          <span style="font-family: var(--font-title); font-weight: 700; font-size: var(--text-h3); color: var(--coral-500); line-height: 1; font-variant-numeric: tabular-nums">{{ ch.num }}</span>
+          <div style="display: flex; flex-direction: column; gap: var(--space-4)">
+            <h2 style="font-family: var(--font-title); font-weight: 700; font-size: var(--text-h2); line-height: var(--leading-title); color: var(--text-title); margin: 0">{{ ch.title }}</h2>
+            <p style="font-size: var(--text-body-lg); line-height: var(--leading-body); color: var(--text-body); margin: 0; max-width: var(--measure-prose); text-wrap: pretty">{{ ch.text }}</p>
+          </div>
+        </section>
+      </sc-for>
+
+      <sc-if value="{{ hasGallery }}" hint-placeholder-val="{{ true }}">
+        <section style="display: flex; flex-direction: column; gap: var(--space-5)">
+          <span style="font-size: var(--text-caption); font-weight: 600; text-transform: uppercase; letter-spacing: var(--tracking-label); color: var(--ink-400)">Gallery</span>
+          <div class="c-gallery" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5)">
+            <sc-for list="{{ gallery }}" as="g" hint-placeholder-count="2">
+              <a href="#" onClick="{{ g.open }}" style="display: block; aspect-ratio: 4 / 3; border-radius: var(--radius-lg); overflow: hidden; background: var(--blush-200); box-shadow: var(--shadow-sm); transition: transform 250ms cubic-bezier(0,0,0.2,1), box-shadow 250ms cubic-bezier(0,0,0.2,1)" style-hover="transform: translateY(-4px); box-shadow: var(--shadow-md)">{{ g.img }}</a>
+            </sc-for>
+          </div>
+        </section>
+      </sc-if>
+
+      <sc-if value="{{ hasQuote }}" hint-placeholder-val="{{ true }}">
+        <blockquote style="margin: 0; background: var(--blush-100); border-radius: var(--radius-xl); padding: clamp(32px, 4vw, 56px); display: flex; flex-direction: column; gap: var(--space-4)">
+          <p style="font-family: var(--font-title); font-weight: 700; font-size: var(--text-h3); line-height: 1.3; color: var(--text-title); margin: 0; max-width: 28ch; text-wrap: pretty">{{ quote }}</p>
+          <sc-if value="{{ hasAuthor }}" hint-placeholder-val="{{ true }}">
+            <cite style="font-style: normal; font-size: var(--text-body-sm); font-weight: 600; color: var(--text-accent)">{{ author }}</cite>
+          </sc-if>
+        </blockquote>
+      </sc-if>
+    </main>
+  </div>
+
+  <nav class="c-pad" style="max-width: var(--max-content); margin: clamp(64px, 8vw, 112px) auto 0; padding: var(--space-10) clamp(24px, 6vw, 96px) 0; border-top: 1px solid var(--border-hairline)">
+    <div class="c-nav-pair" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5)">
+      <a href="#" onClick="{{ goPrev }}" style="display: flex; flex-direction: column; gap: 8px; text-decoration: none; background: var(--surface-card); border-radius: var(--radius-lg); padding: var(--space-6); box-shadow: var(--shadow-sm); transition: transform 250ms cubic-bezier(0,0,0.2,1), box-shadow 250ms cubic-bezier(0,0,0.2,1)" style-hover="transform: translateY(-4px); box-shadow: var(--shadow-md)">
+        <span style="font-size: var(--text-caption); font-weight: 600; text-transform: uppercase; letter-spacing: var(--tracking-label); color: var(--ink-400)">Previous</span>
+        <span style="font-family: var(--font-title); font-weight: 700; font-size: var(--text-h4); color: var(--text-title)">{{ prevName }}</span>
+      </a>
+      <a href="#" onClick="{{ goNext }}" style="display: flex; flex-direction: column; gap: 8px; text-align: right; text-decoration: none; background: var(--surface-card); border-radius: var(--radius-lg); padding: var(--space-6); box-shadow: var(--shadow-sm); transition: transform 250ms cubic-bezier(0,0,0.2,1), box-shadow 250ms cubic-bezier(0,0,0.2,1)" style-hover="transform: translateY(-4px); box-shadow: var(--shadow-md)">
+        <span style="font-size: var(--text-caption); font-weight: 600; text-transform: uppercase; letter-spacing: var(--tracking-label); color: var(--ink-400)">Next</span>
+        <span style="font-family: var(--font-title); font-weight: 700; font-size: var(--text-h4); color: var(--text-title)">{{ nextName }}</span>
+      </a>
+    </div>
+  </nav>
+
+  <sc-if value="{{ lightboxOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeLightbox }}" style="position: fixed; inset: 0; z-index: 90; background: rgba(63,65,66,0.82); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; padding: clamp(20px, 5vw, 72px); animation: ani-fade-in 250ms cubic-bezier(0,0,0.2,1) both">
+      <div style="max-width: 1100px; width: 100%; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-lg)">{{ lightboxImg }}</div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;project&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;&quot;, &quot;anidesignit-portfolio&quot;, &quot;zolu-ai-assistant&quot;, &quot;marquess-coffee&quot;, &quot;the-mod-squad-team&quot;, &quot;ghg-accounting-website&quot;, &quot;louise-lee-website&quot;], &quot;default&quot;: &quot;&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Content&quot; }
+}">
+class Component extends DCLogic {
+  state = { idx: 0, lightbox: null };
+  componentDidMount() {
+    this._onKey = (e) => {
+      if (e.key === 'Escape') this.setState({ lightbox: null });
+    };
+    window.addEventListener('keydown', this._onKey);
+  }
+  componentWillUnmount() { window.removeEventListener('keydown', this._onKey); }
+  go = (d) => (e) => {
+    e && e.preventDefault();
+    const all = window.ANI_PROJECTS || [];
+    const n = all.length || 1;
+    const next = ((this._idx + d) % n + n) % n;
+    if (location.hash) history.replaceState(null, '', '#' + (all[next] || {}).slug);
+    this.setState({ idx: next, lightbox: null });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+  renderVals() {
+    const all = window.ANI_PROJECTS || [];
+    const n = all.length || 1;
+    const hash = typeof location !== 'undefined' ? decodeURIComponent(location.hash.replace('#', '')) : '';
+    const slug = ((this.props.project ?? '') || hash).trim();
+    const fromProp = slug ? all.findIndex((p) => p.slug === slug) : -1;
+    const idx = fromProp >= 0 ? fromProp : this.state.idx;
+    this._idx = idx;
+    const p = all[idx] || {};
+    const body = p.body || [];
+    const gallery = (p.gallery || []).map((src, i) => ({
+      img: React.createElement('img', { src, alt: '', style: { width: '100%', height: '100%', objectFit: 'cover', display: 'block' } }),
+      open: (e) => { e && e.preventDefault(); this.setState({ lightbox: src }); },
+    }));
+    const t = p.testimonial || {};
+    const prev = all[(idx - 1 + n) % n] || {}, next = all[(idx + 1) % n] || {};
+    return {
+      name: p.name, subtitle: p.subtitle, summary: p.summary, year: p.year,
+      client: p.client, role: p.role, tools: p.tools || [],
+      counter: `${String(idx + 1).padStart(2, '0')} / ${String(n).padStart(2, '0')}`,
+      heroImg: p.heroImage ? React.createElement('img', { src: p.heroImage, alt: p.name, style: { width: '100%', height: '100%', objectFit: 'cover', display: 'block' } }) : null,
+      chapters: body.map(([title, text], i) => ({ num: String(i + 1).padStart(2, '0'), title, text })),
+      gallery, hasGallery: gallery.length > 0,
+      hasQuote: !!t.quote, quote: t.quote ? `\u201C${t.quote}\u201D` : '', hasAuthor: !!t.author, author: t.author ? `\u2014 ${t.author}` : '',
+      prevName: prev.name, nextName: next.name,
+      goPrev: this.go(-1), goNext: this.go(1),
+      lightboxOpen: !!this.state.lightbox,
+      lightboxImg: this.state.lightbox ? React.createElement('img', { src: this.state.lightbox, alt: '', style: { width: '100%', display: 'block' } }) : null,
+      closeLightbox: () => this.setState({ lightbox: null }),
+    };
+  }
+}
+</script>
+</body>
+</html>

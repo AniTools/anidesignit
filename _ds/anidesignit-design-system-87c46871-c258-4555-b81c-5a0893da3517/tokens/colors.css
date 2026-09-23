@@ -1,0 +1,67 @@
+/* AniDesignIt — colour tokens.
+   Source of truth: brand sheet (assets/brand-sheet.png) + claude.md :root block
+   in AniTools/Portfolio-Website. The three brand values are exact; neutrals and
+   states are derived in oklch from them. */
+:root{
+  /* Brand — exact values from the source */
+  --coral-500:#FF725E;   /* --primary-color   */
+  --blush-100:#FFEBE5;   /* --bg-color        */
+  --ink-700:#3F4142;     /* --secondary-color */
+  --ink-900:#263238;     /* cursor arrow fill in the logo SVGs */
+  --white:#FFFFFF;
+
+  /* Coral ramp — derived from --coral-500 in oklch */
+  --coral-700:oklch(52% 0.16 30);
+  --coral-600:oklch(62% 0.18 30);
+  --coral-400:oklch(78% 0.12 30);
+  --coral-200:oklch(89% 0.06 30);
+
+  /* Blush / warm neutrals */
+  --blush-025:#FFFBFA;   /* page canvas — blush pulled back so it reads elegant */
+  --blush-050:#FFF7F4;
+  --blush-200:oklch(91% 0.032 30);
+  --blush-300:oklch(86% 0.038 30);
+
+  /* Ink ramp */
+  --ink-800:oklch(32% 0.012 240);
+  --ink-600:oklch(47% 0.010 240);
+  --ink-400:oklch(63% 0.008 240);
+  --ink-300:oklch(76% 0.006 240);
+  --ink-200:oklch(87% 0.005 240);
+
+  /* Semantic surfaces */
+  --surface-page:var(--blush-025);
+  --surface-band:var(--blush-100);   /* full-strength blush, for section bands only */
+  --surface-card:var(--white);
+  --surface-raised:var(--blush-050);
+  --surface-inverse:var(--ink-700);
+  --surface-accent:var(--coral-500);
+  --surface-accent-soft:var(--coral-200);
+
+  /* Semantic text */
+  --text-body:var(--ink-700);
+  --text-title:var(--ink-700);
+  --text-muted:var(--ink-400);
+  --text-accent:var(--coral-500);
+  --text-on-accent:var(--white);
+  --text-on-inverse:var(--blush-100);
+
+  /* Lines & edges */
+  --border-hairline:var(--blush-300);
+  --border-strong:var(--ink-700);
+  --border-accent:var(--coral-500);
+  --border-selection:var(--coral-500);
+
+  /* Interaction */
+  --state-hover-accent:var(--coral-600);
+  --state-press-accent:var(--coral-700);
+  --state-hover-surface:var(--blush-200);
+  --state-focus-ring:var(--coral-500);
+  --state-disabled-fg:var(--ink-300);
+  --state-disabled-bg:var(--blush-200);
+
+  /* Status — no status palette exists in the source; these are derived
+     additions for form feedback. Documented in readme.md. */
+  --status-success:oklch(58% 0.11 155);
+  --status-error:var(--coral-700);
+}

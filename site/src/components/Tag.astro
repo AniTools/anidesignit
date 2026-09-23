@@ -1,0 +1,29 @@
+---
+/* Ported from _ds Tag.jsx — tool tags, always bare, never comma-joined. */
+interface Props {
+  tone?: 'accent' | 'neutral' | 'outline';
+  class?: string;
+}
+const { tone = 'accent', class: className } = Astro.props;
+---
+
+<span class:list={['ds-tag', `is-${tone}`, className]}><slot /></span>
+
+<style>
+  .ds-tag {
+    font-family: var(--font-sans);
+    font-size: var(--text-caption);
+    font-weight: 600;
+    padding: 5px 13px;
+    border-radius: var(--radius-pill);
+    line-height: 1.4;
+    display: inline-block;
+  }
+  .is-accent { background: var(--coral-200); color: var(--coral-700); }
+  .is-neutral { background: var(--blush-200); color: var(--ink-600); }
+  .is-outline {
+    background: transparent;
+    color: var(--ink-600);
+    box-shadow: inset 0 0 0 1px var(--border-hairline);
+  }
+</style>

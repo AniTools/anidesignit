@@ -1,0 +1,23 @@
+/* AniDesignIt design system — tokens first, then site-level rules.
+   Token files are copied verbatim from the _ds design system; edit them there
+   and re-copy rather than diverging. */
+@import './tokens/fonts.css';
+@import './tokens/colors.css';
+@import './tokens/typography.css';
+@import './tokens/spacing.css';
+@import './tokens/effects.css';
+@import './tokens/base.css';
+
+/* Several components toggle visibility with the `hidden` attribute while their
+   own rules set `display: flex/grid`, which silently wins. Make `hidden` mean
+   hidden everywhere rather than patching each component. */
+[hidden] {
+  display: none !important;
+}
+
+/* Images carry width/height attributes so the browser can reserve their space
+   before they load. Those attributes must act as an aspect ratio, not a fixed
+   height — otherwise any rule that sets only a width stretches the picture. */
+img {
+  height: auto;
+}

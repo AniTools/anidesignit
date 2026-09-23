@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/anidesignit-design-system-87c46871-c258-4555-b81c-5a0893da3517/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/anidesignit-design-system-87c46871-c258-4555-b81c-5a0893da3517/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/anidesignit-design-system-87c46871-c258-4555-b81c-5a0893da3517/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/anidesignit-design-system-87c46871-c258-4555-b81c-5a0893da3517/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/anidesignit-design-system-87c46871-c258-4555-b81c-5a0893da3517/tokens/effects.css">
+  <link rel="stylesheet" href="_ds/anidesignit-design-system-87c46871-c258-4555-b81c-5a0893da3517/tokens/base.css">
+  <link rel="stylesheet" href="_ds/anidesignit-design-system-87c46871-c258-4555-b81c-5a0893da3517/styles.css">
+  <script src="_ds/anidesignit-design-system-87c46871-c258-4555-b81c-5a0893da3517/_ds_bundle.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <script src="https://unpkg.com/lucide@0.536.0/dist/umd/lucide.min.js"></script>
+  <script src="data.js"></script>
+  <script type="module" src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.6.2/dist/dotlottie-wc.js"></script>
+  <style>
+    html, body { margin: 0; padding: 0; background: var(--blush-025, #FFFBFA); }
+    a { color: var(--coral-500, #FF725E); }
+    a:hover { color: var(--coral-600, #e55a47); }
+    .h-root { height: 100vh; overflow: hidden; }
+    /* Nav reads as a frame, not a surface: transparent over the canvas, hairline below. */
+    .h-nav header {
+      background: transparent !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      border-bottom: 1px solid var(--border-hairline);
+    }
+    @media (max-width: 1024px) {
+      .h-grid3 { grid-template-columns: repeat(2, 1fr) !important; }
+      .h-split-name { font-size: var(--text-h4) !important; }
+      .h-split-row { padding: 14px 10px !important; gap: 12px !important; }
+      .h-split-preview .h-preview { height: min(42vh, 380px) !important; }
+      .h-section { padding-left: calc(var(--social-rail-width) + 12px) !important; padding-right: calc(var(--social-rail-width) + 12px) !important; }
+    }
+    @media (max-width: 768px) {
+      .h-section { padding-left: 24px !important; padding-right: 24px !important; }
+      .h-root { height: auto; overflow: visible; }
+      .h-track { flex-direction: column !important; width: 100vw !important; transform: none !important; }
+      .h-section { width: 100vw !important; height: auto !important; min-height: auto !important; overflow: visible !important; padding-top: calc(var(--nav-height) + 24px) !important; padding-bottom: 56px !important; }
+      .h-section > div { min-height: 0 !important; }
+      .h-cols { grid-template-columns: 1fr !important; gap: 32px !important; }
+      .h-grid3 { grid-template-columns: 1fr !important; overflow: visible !important; }
+      .h-scroll { overflow: visible !important; }
+      .h-dots { display: none !important; }
+      .h-rail { position: fixed !important; left: 0 !important; right: 0 !important; bottom: 0 !important; padding: 10px 0; background: color-mix(in srgb, var(--blush-025) 92%, transparent); border-top: 1px solid var(--border-hairline); backdrop-filter: blur(var(--blur-backdrop)); -webkit-backdrop-filter: blur(var(--blur-backdrop)); justify-content: center; z-index: 45; }
+      .h-portrait { width: 52vw !important; max-width: 240px !important; margin: 0 auto; }
+      [data-screen-label="About Me"] .h-lottie-sm { width: 68vw !important; height: 68vw !important; max-width: 320px !important; max-height: 320px !important; }
+      [data-screen-label="Contact"] .h-lottie-sm { width: 56vw !important; height: 44vw !important; max-width: 240px !important; }
+      .h-lottie { width: 74vw !important; }
+      .h-hero-h1 { font-size: 3.1rem !important; }
+      /* Phones: bigger section titles, centred blocks, one project per stacked row. */
+      .h-section h2 { font-size: 2.3rem !important; line-height: 1.08 !important; }
+      .h-section .h-cols > div,
+      .h-section header { align-items: center !important; text-align: center !important; }
+      .h-section .h-cols > div > div { text-align: center !important; justify-content: center !important; }
+      .h-section .h-cols > div > p { text-align: center !important; margin-left: auto !important; margin-right: auto !important; }
+      .h-section form, .h-section form * { text-align: left !important; }
+      .h-section form { align-items: stretch !important; }
+      .h-split-row { grid-template-columns: 1fr !important; justify-items: center; text-align: center !important; gap: 6px !important; padding: 18px 12px !important; }
+      .h-split-name { font-size: 1.6rem !important; }
+      .h-split-meta { font-size: var(--text-body-sm) !important; white-space: normal !important; }
+      .h-split-preview > div:last-child { align-items: center !important; text-align: center !important; }
+      .h-split-preview > div:last-child > div:last-child { justify-content: center !important; }
+      .h-align-r { text-align: center !important; }
+      /* Editorial split on phones: image first (no hover on touch), then the tappable list. */
+      .h-split-list { display: contents !important; }
+      .h-split-list > header { order: 1; }
+      .h-split-preview { order: 2; }
+      .h-split-list > *:nth-child(2) { order: 3; }
+      .h-split-list > *:nth-child(3) { order: 4; }
+      .h-split-preview .h-preview { height: 46vh !important; min-height: 200px !important; }
+      .h-desk { display: flex !important; flex-direction: column; gap: 20px; }
+      .h-desk-card { position: static !important; width: 100% !important; transform: none !important; }
+      /* On phones the nav floats over scrolling content, so the blur earns its place. */
+      .h-nav header {
+        background: color-mix(in srgb, var(--blush-025) 90%, transparent) !important;
+        backdrop-filter: blur(var(--blur-backdrop)) !important;
+        -webkit-backdrop-filter: blur(var(--blur-backdrop)) !important;
+      }
+      .h-split-preview .h-preview { height: 42vh !important; min-height: 180px !important; }
+      .h-split-preview > div:last-child { flex-direction: column !important; gap: 10px !important; }
+    }
+  </style>
+</helmet>
+<div class="h-root" style="position: relative; background: var(--blush-025); font-family: var(--font-sans); color: var(--text-body)">
+  <div class="h-nav" style="position: fixed; top: 0; left: 0; right: 0; z-index: 50">
+    <x-import component-from-global-scope="AniDesignItDesignSystem_87c468.NavBar" logo-src="assets/logo-wordmark.svg" items="{{ navItems }}" active="{{ activeItem }}" on-navigate="{{ onNavigate }}" hint-size="100%,80px"></x-import>
+  </div>
+  <div class="h-rail" style="position: fixed; left: 20px; bottom: 28px; z-index: 40; display: flex">
+    <x-import component-from-global-scope="AniDesignItDesignSystem_87c468.SocialRail" orientation="{{ railOrientation }}" hint-size="40px,130px"></x-import>
+  </div>
+  <div class="h-dots" style="position: fixed; right: 22px; top: 50%; transform: translateY(-50%); z-index: 40">
+    <x-import component-from-global-scope="AniDesignItDesignSystem_87c468.SectionDots" count="{{ five }}" active="{{ sec }}" on-select="{{ goTo }}" hint-size="10px,90px"></x-import>
+  </div>
+  <div class="h-track" style="display: flex; width: 500vw; height: 100vh; transform: {{ trackX }}; transition: transform 700ms cubic-bezier(0,0,0.2,1); will-change: transform">
+
+    <section class="h-section" data-screen-label="Hero" style="width: 100vw; height: 100vh; box-sizing: border-box; padding: calc(var(--nav-height) + 16px) var(--section-pad-x) 40px; display: flex; overflow-y: auto">
+      <div class="h-cols" style="display: grid; grid-template-columns: 1.05fr 0.95fr; gap: var(--space-12); align-items: center; max-width: var(--max-content); margin: auto; width: 100%">
+        <div style="display: flex; flex-direction: column; gap: var(--space-6); align-items: flex-start; animation: {{ heroAnim }}">
+          <div style="font-size: var(--text-label); font-weight: 600; text-transform: uppercase; letter-spacing: var(--tracking-eyebrow); color: var(--coral-500)">Product Designer · UX/UI · Web Design</div>
+          <h1 class="h-hero-h1" style="font-family: var(--font-title); font-weight: 700; font-size: clamp(3rem, 5.2vw, 4.75rem); line-height: var(--leading-display); letter-spacing: var(--tracking-display); color: var(--text-title); margin: 0">
+            <span>Ana Maria Posada</span>
+          </h1>
+          <p style="font-weight: 600; font-style: italic; font-size: var(--text-subtitle); line-height: var(--leading-subtitle); color: var(--text-accent); margin: 0; max-width: 34ch">I design calm, useful digital products — from brand and interface to Lottie motion and the code that ships them.</p>
+          <p style="font-size: var(--text-body-md); line-height: var(--leading-body); color: var(--text-muted); margin: 0; max-width: 48ch">Based in Vancouver, BC. Six shipped projects below — each one scannable in under a minute.</p>
+          <div style="display: flex; gap: var(--space-4); align-items: center">
+            <x-import component-from-global-scope="AniDesignItDesignSystem_87c468.Button" variant="primary" icon="arrow-right" on-click="{{ goWork }}" hint-size="auto,48px">Explore My Work</x-import>
+            <x-import component-from-global-scope="AniDesignItDesignSystem_87c468.Button" variant="outline" href="https://calendar.app.google/Ltp15FQaPxhoeaZS9" hint-size="auto,48px">Book a call</x-import>
+          </div>
+        </div>
+        <div style="display: flex; justify-content: center">
+          <sc-if value="{{ hasLottie }}" hint-placeholder-val="{{ false }}">
+            <div class="h-lottie" style="width: min(30vw, 480px); aspect-ratio: 1; animation: {{ heroArtAnim }}">{{ lottiePlayer }}</div>
+          </sc-if>
+          <sc-if value="{{ noLottie }}" hint-placeholder-val="{{ true }}">
+            <div class="h-lottie" style="width: min(30vw, 460px); aspect-ratio: 1; border-radius: var(--radius-xl); background: var(--blush-100); animation: {{ heroArtAnim }}; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-5); box-shadow: var(--shadow-sm)">
+              <img src="assets/logo-mark.svg" alt="" style="width: 96px; animation: ani-scale-in 600ms cubic-bezier(0,0,0.2,1) forwards">
+              <div style="font-size: var(--text-caption); font-weight: 600; text-transform: uppercase; letter-spacing: var(--tracking-label); color: var(--ink-400); text-align: center; max-width: 26ch; line-height: 1.6">Lottie animation<br>paste your .lottie URL in Tweaks</div>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+    </section>
+
+    <section class="h-section" data-screen-label="My Work" style="width: 100vw; height: 100vh; box-sizing: border-box; padding: calc(var(--nav-height) + 8px) var(--section-pad-x) 32px; overflow: hidden; display: flex; flex-direction: column">
+      <div style="max-width: var(--max-content); margin: 0 auto; width: 100%; display: flex; flex-direction: column; min-height: 0; flex: 1; justify-content: center">
+        
+        <sc-if value="{{ workDesk }}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; flex-direction: column; min-height: 0; flex: 1; gap: var(--space-4)">
+            <header style="animation: {{ workAnim }}; display: flex; align-items: flex-end; justify-content: space-between; gap: var(--space-6)">
+              <div style="display: flex; flex-direction: column; gap: var(--space-2)">
+                <div style="font-size: var(--text-label); font-weight: 600; text-transform: uppercase; letter-spacing: var(--tracking-eyebrow); color: var(--coral-500)">Selected Work · 2024–2025</div>
+                <h2 style="font-family: var(--font-title); font-weight: 700; font-size: var(--text-h1); line-height: var(--leading-title); color: var(--text-title); margin: 0">My Work</h2>
+              </div>
+              <p style="font-weight: 600; font-style: italic; font-size: var(--text-body-md); color: var(--text-accent); margin: 0; max-width: 32ch; text-align: right" class="h-align-r">Click a print to bring it to the top of the pile.</p>
+            </header>
+            <div class="h-desk" style="position: relative; flex: 1; min-height: 0">
+              <sc-for list="{{ deskCards }}" as="p" hint-placeholder-count="6">
+                <a href="#" onClick="{{ p.onPick }}" class="h-desk-card" style="position: absolute; left: {{ p.left }}; top: {{ p.top }}; width: clamp(200px, 19vw, 268px); z-index: {{ p.z }}; transform: {{ p.transform }}; transform-origin: 50% 90%; background: var(--surface-card); border-radius: var(--radius-lg); box-shadow: {{ p.shadow }}; padding: 10px 10px 14px; text-decoration: none; display: flex; flex-direction: column; gap: 10px; transition: transform 250ms cubic-bezier(0,0,0.2,1), box-shadow 250ms cubic-bezier(0,0,0.2,1)">
+                  <span style="display: block; border-radius: var(--radius-md); overflow: hidden; aspect-ratio: 4 / 3; background: var(--blush-200)">{{ p.img }}</span>
+                  <span style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px; padding: 0 4px">
+                    <span style="font-size: var(--text-caption); font-weight: 600; color: {{ p.numColor }}; font-variant-numeric: tabular-nums">{{ p.num }}</span>
+                    <span style="font-size: var(--text-caption); font-weight: 600; color: var(--coral-500)">{{ p.year }}</span>
+                  </span>
+                  <span style="display: flex; flex-direction: column; gap: 2px; padding: 0 4px">
+                    <span style="font-family: var(--font-title); font-weight: 700; font-size: var(--text-h4); line-height: var(--leading-tight); color: var(--text-title)">{{ p.name }}</span>
+                    <span style="font-size: var(--text-caption); color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{ p.role }} · {{ p.toolsLine }}</span>
+                  </span>
+                </a>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ workSplit }}" hint-placeholder-val="{{ true }}">
+          <div class="h-cols" style="display: grid; grid-template-columns: 1fr 1.05fr; gap: var(--space-12); align-items: stretch; min-height: 0; flex: 1">
+            <div class="h-scroll h-split-list" style="display: flex; flex-direction: column; min-height: 0; overflow-y: auto; justify-content: safe center; gap: var(--space-6)">
+              <header style="animation: {{ workAnim }}; display: flex; flex-direction: column; gap: var(--space-2); align-items: flex-start">
+                <div style="font-size: var(--text-label); font-weight: 600; text-transform: uppercase; letter-spacing: var(--tracking-eyebrow); color: var(--coral-500)">Selected Work · 2024–2025</div>
+                <h2 style="font-family: var(--font-title); font-weight: 700; font-size: var(--text-h1); line-height: var(--leading-title); color: var(--text-title); margin: 0">My Work</h2>
+              </header>
+              <div style="display: flex; flex-direction: column">
+                <sc-for list="{{ pageProjects }}" as="p" hint-placeholder-count="3">
+                  <a href="{{ p.href }}" class="h-split-row" onMouseEnter="{{ p.onHover }}" onFocus="{{ p.onHover }}" style="display: grid; grid-template-columns: 40px 1fr auto; align-items: center; gap: var(--space-4); padding: var(--space-5) var(--space-4); text-decoration: none; border-top: 1px solid var(--border-hairline); background: {{ p.rowBg }}; box-shadow: {{ p.rowShadow }}; transform: {{ p.rowShift }}; border-radius: var(--radius-md); animation: {{ p.anim }}; transition: background 150ms cubic-bezier(0,0,0.2,1), box-shadow 250ms cubic-bezier(0,0,0.2,1), transform 250ms cubic-bezier(0,0,0.2,1)">
+                    <span style="font-size: var(--text-caption); font-weight: 600; color: {{ p.numColor }}; font-variant-numeric: tabular-nums; transition: color 150ms">{{ p.num }}</span>
+                    <span style="display: flex; flex-direction: column; gap: 4px; min-width: 0">
+                      <span class="h-split-name" style="font-family: var(--font-title); font-weight: 700; font-size: var(--text-h3); line-height: var(--leading-tight); color: {{ p.nameColor }}; transition: color 150ms">{{ p.name }}</span>
+                      <span class="h-split-meta" style="font-size: var(--text-caption); color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{ p.role }} · {{ p.toolsLine }}</span>
+                    </span>
+                    <span style="font-size: var(--text-caption); font-weight: 600; color: var(--coral-500); font-variant-numeric: tabular-nums">{{ p.year }}</span>
+                  </a>
+                </sc-for>
+              </div>
+              <div style="display: flex; align-items: center; gap: var(--space-4); padding-left: var(--space-4); animation: {{ workAnim }}">
+                <span style="font-size: var(--text-caption); font-weight: 600; text-transform: uppercase; letter-spacing: var(--tracking-label); color: var(--ink-400); font-variant-numeric: tabular-nums">{{ pageLabel }}</span>
+                <span style="flex: 1; height: 1px; background: var(--border-hairline)"></span>
+                <button onClick="{{ prevPage }}" aria-label="Previous projects" style="width: 40px; height: 40px; border-radius: var(--radius-pill); border: 1px solid var(--border-hairline); background: var(--surface-card); color: var(--ink-700); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 150ms cubic-bezier(0,0,0.2,1)" style-hover="border-color: var(--coral-500); color: var(--coral-500)">
+                  <x-import component-from-global-scope="AniDesignItDesignSystem_87c468.Icon" name="arrow-left" size="18" hint-size="18px,18px"></x-import>
+                </button>
+                <button onClick="{{ nextPage }}" aria-label="Next projects" style="width: 40px; height: 40px; border-radius: var(--radius-pill); border: 1px solid transparent; background: var(--coral-500); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 150ms cubic-bezier(0,0,0.2,1)" style-hover="background: var(--coral-600)">
+                  <x-import component-from-global-scope="AniDesignItDesignSystem_87c468.Icon" name="arrow-right" size="18" hint-size="18px,18px"></x-import>
+                </button>
+              </div>
+            </div>
+            <div class="h-scroll h-split-preview" style="position: relative; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; justify-content: safe center">
+              <div class="h-preview" style="position: relative; flex: none; border-radius: var(--radius-lg); overflow: hidden; background: var(--blush-200); box-shadow: var(--shadow-md); height: min(52vh, 520px); min-height: 220px; animation: {{ previewAnim }}">{{ previewImg }}</div>
+              <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: var(--space-5); margin-top: var(--space-5); animation: {{ workAnim }}">
+                <div style="display: flex; flex-direction: column; gap: 4px">
+                  <span style="font-family: var(--font-title); font-weight: 700; font-size: var(--text-h4); color: var(--text-title)">{{ previewName }}</span>
+                  <span style="font-weight: 600; font-style: italic; font-size: var(--text-body-sm); color: var(--text-accent)">{{ previewSummary }}</span>
+                  <a href="{{ previewHref }}" style="display: inline-flex; align-items: center; gap: 6px; margin-top: 6px; font-size: var(--text-caption); font-weight: 600; text-transform: uppercase; letter-spacing: var(--tracking-label); text-decoration: none">
+                    <span>View case study</span>
+                    <x-import component-from-global-scope="AniDesignItDesignSystem_87c468.Icon" name="arrow-right" size="14" hint-size="14px,14px"></x-import>
+                  </a>
+                </div>
+                <div style="display: flex; flex-wrap: wrap; gap: var(--space-2); justify-content: flex-end">
+                  <sc-for list="{{ previewTools }}" as="t" hint-placeholder-count="4">
+                    <x-import component-from-global-scope="AniDesignItDesignSystem_87c468.Tag" hint-size="auto,26px">{{ t }}</x-import>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ workGrid }}" hint-placeholder-val="{{ false }}">
+          <header style="margin-bottom: var(--space-6); animation: {{ workAnim }}; display: flex; flex-direction: column; align-items: flex-start; text-align: left; gap: var(--space-2); justify-content: flex-start">
+          <div style="font-size: var(--text-label); font-weight: 600; text-transform: uppercase; letter-spacing: var(--tracking-eyebrow); color: var(--coral-500)">Selected Work · 2024–2025</div>
+          <h2 style="font-family: var(--font-title); font-weight: 700; font-size: var(--text-h1); line-height: var(--leading-title); color: var(--text-title); margin: 0">My Work</h2>
+          <p style="font-weight: 600; font-style: italic; font-size: var(--text-body-md); color: var(--text-accent); margin: 0; max-width: 36ch; text-align: left" class="h-align-r">Product, brand, and web — role and tools up front.</p>
+        </header><div class="h-grid3 h-scroll" style="display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-rows: max-content; align-content: start; gap: var(--space-5); overflow-y: auto; min-height: 0">
+            <sc-for list="{{ projects }}" as="p" hint-placeholder-count="6">
+              <x-import component-from-global-scope="AniDesignItDesignSystem_87c468.ProjectCard" name="{{ p.name }}" role="{{ p.role }}" image="{{ p.image }}" tools="{{ p.tools }}" style="animation: {{ p.anim }}" hint-size="100%,320px"></x-import>
+            </sc-for>
+          </div>
+        </sc-if>
+        <sc-if value="{{ workIndex }}" hint-placeholder-val="{{ false }}">
+          <div class="h-cols" style="display: grid; grid-template-columns: 1.1fr 0.9fr; gap: var(--space-10); min-height: 0; flex: 1">
+            <div class="h-scroll" style="display: flex; flex-direction: column; overflow-y: auto; min-height: 0">
+              <sc-for list="{{ projects }}" as="p" hint-placeholder-count="6">
+                <a href="#" onMouseEnter="{{ p.onHover }}" style="display: grid; grid-template-columns: 44px 1fr auto; gap: var(--space-4); align-items: baseline; padding: var(--space-4) var(--space-3); border-bottom: 1px solid var(--border-hairline); text-decoration: none; background: {{ p.rowBg }}; border-radius: var(--radius-md); box-shadow: {{ p.rowShadow }}; transform: {{ p.rowShift }}; animation: {{ p.anim }}; transition: background 150ms cubic-bezier(0,0,0.2,1), box-shadow 250ms cubic-bezier(0,0,0.2,1), transform 250ms cubic-bezier(0,0,0.2,1)">
+                  <span style="font-size: var(--text-caption); font-weight: 600; color: var(--ink-300); font-variant-numeric: tabular-nums">{{ p.num }}</span>
+                  <span style="display: flex; flex-direction: column; gap: 2px">
+                    <span style="font-family: var(--font-title); font-weight: 700; font-size: var(--text-h4); color: var(--text-title); line-height: var(--leading-tight)">{{ p.name }}</span>
+                    <span style="font-size: var(--text-caption); color: var(--text-muted)">{{ p.role }} · {{ p.toolsLine }}</span>
+                  </span>
+                  <span style="font-size: var(--text-caption); font-weight: 600; color: var(--coral-500)">{{ p.year }}</span>
+                </a>
+              </sc-for>
+            </div>
+            <div style="position: relative; min-height: 0">
+              <div style="border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md); height: 100%; min-height: 260px; background: var(--blush-200); animation: {{ previewAnim }}">{{ previewImg }}</div>
+              <div style="position: absolute; left: var(--space-4); bottom: var(--space-4); background: var(--surface-card); border-radius: var(--radius-pill); padding: 8px 16px; font-size: var(--text-caption); font-weight: 600; color: var(--ink-700); box-shadow: var(--shadow-sm)">{{ previewName }}</div>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ workStrip }}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; gap: var(--space-5); overflow-x: auto; padding-bottom: var(--space-4); min-height: 0; align-items: flex-start; scroll-snap-type: x mandatory">
+            <sc-for list="{{ projects }}" as="p" hint-placeholder-count="6">
+              <x-import component-from-global-scope="AniDesignItDesignSystem_87c468.ProjectCard" name="{{ p.name }}" role="{{ p.role }}" summary="{{ p.summary }}" image="{{ p.image }}" tools="{{ p.tools }}" style="width: 360px; flex: none; scroll-snap-align: start; animation: {{ p.anim }}" hint-size="360px,430px"></x-import>
+            </sc-for>
+          </div>
+        </sc-if>
+      </div>
+    </section>
+
+    <section class="h-section" data-screen-label="Services" style="width: 100vw; height: 100vh; box-sizing: border-box; padding: calc(var(--nav-height) + 8px) var(--section-pad-x) 32px; overflow: hidden; display: flex; flex-direction: column">
+      <div style="max-width: var(--max-content); margin: 0 auto; width: 100%; display: flex; flex-direction: column; min-height: 0; flex: 1; align-items: stretch; justify-content: center">
+        <x-import component-from-global-scope="AniDesignItDesignSystem_87c468.SectionHeading" eyebrow="Start Your Digital Design Journey" title="Services" subtitle="From first brand sketch to shipped, animated website." style="margin-bottom: var(--space-8); animation: {{ svcHeadAnim }}" hint-size="100%,130px"></x-import>
+        <div class="h-grid3 h-scroll" style="display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-rows: max-content; align-content: start; gap: var(--space-5); overflow-y: auto; min-height: 0">
+          <sc-for list="{{ services }}" as="s" hint-placeholder-count="6">
+            <x-import component-from-global-scope="AniDesignItDesignSystem_87c468.ServiceItem" icon="{{ s.icon }}" title="{{ s.title }}" description="{{ s.description }}" index="{{ s.index }}" style="animation: {{ s.anim }}" hint-size="100%,210px"></x-import>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <section class="h-section" data-screen-label="About Me" style="width: 100vw; height: 100vh; box-sizing: border-box; padding: calc(var(--nav-height) + 16px) var(--section-pad-x) 40px; display: flex; overflow-y: auto">
+      <div class="h-cols" style="display: grid; grid-template-columns: 0.85fr 1.15fr; gap: var(--space-16); align-items: center; max-width: var(--max-content); margin: auto; width: 100%">
+        <div style="justify-self: center; position: relative; display: flex; align-items: center; justify-content: center">
+          <sc-if value="{{ hasAboutLottie }}" hint-placeholder-val="{{ true }}">
+            <div class="h-lottie-sm" style="position: absolute; inset: 0; margin: auto; width: min(40vw, 500px); z-index: 0; pointer-events: none; animation: {{ aboutFadeAnim }}; height: min(40vw; bottom: -1px; bottom: -1px; bottom: -4px; bottom: -7px; bottom: -9px; bottom: -12px; bottom: -15px; bottom: -16px; bottom: -22px; bottom: -25px; bottom: -29px; bottom: -32px; bottom: -33px; bottom: -37px; bottom: -40px; bottom: -43px; bottom: -43px; bottom: -43px; bottom: -43px; bottom: -43px; bottom: -43px; bottom: -43px; bottom: -43px; bottom: -43px; bottom: -43px; bottom: -43px; bottom: -43px; bottom: -43px; bottom: -43px; bottom: -43px; bottom: -43px; bottom: -43px; bottom: -43px; bottom: -43px; left: 0px; left: -1px; left: -2px; left: -4px; left: -5px; left: -7px; left: -8px; left: -8px; left: -9px; left: -11px; left: -11px; left: -11px; left: -12px; left: -13px; left: -13px; left: -13px; left: -14px; left: -15px; left: -16px; left: -16px; left: -17px; left: -18px; left: -19px; left: -19px; left: -20px; left: -21px; left: -22px; left: -23px; left: -23px; left: -24px; left: -24px; left: -24px; left: -25px; left: -25px; left: -26px; left: -26px; left: -27px; left: -27px; left: -28px; left: -29px; left: -29px; left: -31px; left: -33px; left: -35px; left: -36px; left: -37px; left: -37px; left: -37px; left: -37px; left: -38px; left: -37px; left: -37px; left: -37px; left: -37px; left: -37px; left: -37px">{{ aboutLottiePlayer }}</div>
+          </sc-if>
+          <img class="h-portrait" src="https://res.cloudinary.com/dqbxkmkph/image/upload/v1759879976/ANaM_ynwj0v.png" alt="Ana Maria Posada" style="position: relative; z-index: 1; animation: {{ aboutArtAnim }}; display: block; width: 240px">
+        </div>
+        <div style="display: flex; flex-direction: column; gap: var(--space-5); align-items: flex-start; animation: {{ aboutAnim }}">
+          <x-import component-from-global-scope="AniDesignItDesignSystem_87c468.SectionHeading" eyebrow="About" title="Meet Ana Maria" subtitle="Where code meets creativity." style="margin-bottom: 0" hint-size="100%,120px"></x-import>
+          <p style="font-size: var(--text-body-md); line-height: var(--leading-body); color: var(--text-body); margin: 0; max-width: var(--measure-prose)">I'm a multidisciplinary designer in Vancouver working across product UI/UX, visual design, branding, motion, and front-end development. I care about how a product feels as much as how it works — calm layouts, warm color, and small moments of motion that make an interface feel alive.</p>
+          <p style="font-size: var(--text-body-md); line-height: var(--leading-body); color: var(--text-muted); margin: 0; max-width: var(--measure-prose)">When I'm not in Figma, I'm animating in After Effects and Lottie, or turning designs into real websites with Astro and Webflow.</p>
+          <div style="display: flex; flex-wrap: wrap; gap: var(--space-2)">
+            <sc-for list="{{ aboutTools }}" as="t" hint-placeholder-count="6">
+              <span style="font-size: var(--text-caption); font-weight: 600; color: var(--ink-700); background: var(--surface-card); border-radius: var(--radius-pill); padding: 6px 14px; box-shadow: var(--shadow-xs); animation: {{ t.anim }}; transition: transform 150ms cubic-bezier(0,0,0.2,1), box-shadow 150ms cubic-bezier(0,0,0.2,1)" style-hover="box-shadow: var(--shadow-sm); transform: translateY(-2px)">{{ t.label }}</span>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="h-section" data-screen-label="Contact" style="width: 100vw; height: 100vh; box-sizing: border-box; padding: calc(var(--nav-height) + 16px) var(--section-pad-x) 40px; display: flex; overflow-y: auto">
+      <div class="h-cols" style="display: grid; grid-template-columns: 1fr 1.1fr; gap: var(--space-16); align-items: center; max-width: var(--max-content); margin: auto; width: 100%">
+        <div style="display: flex; flex-direction: column; gap: var(--space-6); align-items: flex-start; animation: {{ contactAnim }}">
+          <x-import component-from-global-scope="AniDesignItDesignSystem_87c468.SectionHeading" eyebrow="Contact" title="Let's chat soon!" subtitle="I'd love to hear your ideas! Let's chat about how we can work together to make your vision a reality." style="margin-bottom: 0" hint-size="100%,150px"></x-import>
+          <div style="display: flex; gap: var(--space-5); align-items: center; flex-wrap: wrap">
+            <x-import component-from-global-scope="AniDesignItDesignSystem_87c468.Button" variant="primary" icon="calendar" href="https://calendar.app.google/Ltp15FQaPxhoeaZS9" hint-size="auto,48px">Book a discovery call</x-import>
+          </div>
+          <div style="display: flex; align-items: center; gap: var(--space-6); flex-wrap: wrap">
+            <div style="display: flex; flex-direction: column; gap: var(--space-3); font-size: var(--text-body-sm); color: var(--text-muted)">
+              <a href="mailto:hello@anidesignit.com" style="font-weight: 600">hello@anidesignit.com</a>
+              <span>+1 604-725-1561</span>
+              <span>Vancouver, BC, Canada</span>
+            </div>
+            <sc-if value="{{ hasContactLottie }}" hint-placeholder-val="{{ true }}">
+              <div class="h-lottie-sm" style="width: min(20vw, 260px); height: min(16vw, 200px); flex: none; animation: {{ contactAnim }}">{{ contactLottiePlayer }}</div>
+            </sc-if>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; min-width: 0">
+        <form onSubmit="{{ onSubmit }}" style="animation: {{ formAnim }}; background: var(--blush-100); border-radius: var(--radius-xl); padding: var(--space-8); display: flex; flex-direction: column; gap: var(--space-5)">
+          <div class="h-cols" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5)">
+            <x-import component-from-global-scope="AniDesignItDesignSystem_87c468.TextField" label="Name" name="name" placeholder="Your name" required="{{ true }}" value="{{ formName }}" on-change="{{ onName }}" hint-size="100%,78px"></x-import>
+            <x-import component-from-global-scope="AniDesignItDesignSystem_87c468.TextField" label="Email" name="email" type="email" placeholder="you@example.com" required="{{ true }}" value="{{ formEmail }}" on-change="{{ onEmail }}" hint-size="100%,78px"></x-import>
+          </div>
+          <x-import component-from-global-scope="AniDesignItDesignSystem_87c468.Textarea" label="Message" name="message" placeholder="Tell me about your project…" required="{{ true }}" rows="{{ four }}" value="{{ formMsg }}" on-change="{{ onMsg }}" hint-size="100%,150px"></x-import>
+          <div style="display: flex; align-items: center; gap: var(--space-4); flex-wrap: wrap">
+            <x-import component-from-global-scope="AniDesignItDesignSystem_87c468.Button" variant="primary" icon="send" on-click="{{ onSubmit }}" hint-size="auto,48px">Send message</x-import>
+            <x-import component-from-global-scope="AniDesignItDesignSystem_87c468.FormStatus" status="{{ formStatus }}" hint-size="auto,44px">{{ formStatusMsg }}</x-import>
+          </div>
+        </form>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;workLayout&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;Editorial split&quot;, &quot;Desk stack&quot;, &quot;Card grid&quot;, &quot;Index list&quot;, &quot;Film strip&quot;], &quot;default&quot;: &quot;Editorial split&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Layout variations&quot; },
+  &quot;heroLottie&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;https://lottie.host/08cb3a32-e4c4-40f8-854b-851d2988fff8/66Mw3tUnLk.lottie&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Lottie&quot; },
+  &quot;aboutLottie&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;https://lottie.host/e9bb1186-c7f4-4181-8a73-bdff02f8440c/WCRkGPlthD.lottie&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Lottie&quot; },
+  &quot;contactLottie&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;https://lottie.host/f0502aa7-ce50-45d1-9a35-31ec6d37a66a/HtfqISa9LC.lottie&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Lottie&quot; }
+}">
+class Component extends DCLogic {
+  state = { sec: 0, hoverIdx: 0, page: 0, formName: '', formEmail: '', formMsg: '', formStatus: null };
+  componentDidMount() {
+    this._lock = 0;
+    // Find an inner scroll container between the event target and the section
+    // that can still absorb this wheel/key delta; if one exists, let it scroll.
+    this._innerScroller = (target, dir) => {
+      let el = target instanceof Element ? target : null;
+      while (el && !el.classList.contains('h-section')) {
+        const cs = getComputedStyle(el);
+        const scrollable = /(auto|scroll)/.test(cs.overflowY) && el.scrollHeight > el.clientHeight + 1;
+        if (scrollable) {
+          const room = dir > 0
+            ? el.scrollHeight - el.clientHeight - el.scrollTop > 1
+            : el.scrollTop > 1;
+          if (room) return el;
+        }
+        el = el.parentElement;
+      }
+      return null;
+    };
+    this._onWheel = (e) => {
+      if (window.innerWidth <= 768) return;
+      if (this._innerScroller(e.target, e.deltaY > 0 ? 1 : -1)) return;
+      e.preventDefault();
+      const now = Date.now();
+      if (now - this._lock < 850 || Math.abs(e.deltaY) < 12) return;
+      this._lock = now;
+      this.goTo(this.state.sec + (e.deltaY > 0 ? 1 : -1));
+    };
+    this._onKey = (e) => {
+      if (window.innerWidth <= 768) return;
+      const t = e.target;
+      if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+      const fwd = e.key === 'ArrowRight' || e.key === 'ArrowDown';
+      const back = e.key === 'ArrowLeft' || e.key === 'ArrowUp';
+      if (!fwd && !back) return;
+      if (this._innerScroller(t, fwd ? 1 : -1)) return;
+      e.preventDefault();
+      this.goTo(this.state.sec + (fwd ? 1 : -1));
+    };
+    this._onResize = () => this.forceUpdate();
+    window.addEventListener('wheel', this._onWheel, { passive: false });
+    window.addEventListener('keydown', this._onKey);
+    window.addEventListener('resize', this._onResize);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('wheel', this._onWheel);
+    window.removeEventListener('keydown', this._onKey);
+    window.removeEventListener('resize', this._onResize);
+  }
+  goTo = (i) => this.setState({ sec: Math.max(0, Math.min(4, i)) });
+  renderVals() {
+    const navItems = ['Home', 'My Work', 'Services', 'About Me', 'Contact'];
+    const { sec, hoverIdx } = this.state;
+    const mobile = typeof window !== 'undefined' && window.innerWidth <= 768;
+    // Reveal only when the section is on-screen, so the animation replays on each visit.
+    const rev = (idx, kind, delay) => (mobile || sec === idx)
+      ? `ani-${kind} ${kind === 'scale-in' ? 600 : 800}ms cubic-bezier(0,0,0.2,1) ${delay || 0}ms both`
+      : 'none';
+    const raw = window.ANI_PROJECTS || [];
+    const projects = raw.map((p, i) => ({
+      name: p.name, role: p.role, year: p.year, summary: p.summary,
+      image: p.heroImage, tools: p.tools, toolsLine: p.tools.slice(0, 4).join(' · '),
+      num: String(i + 1).padStart(2, '0'),
+      href: 'AniDesignIt Case Study.dc.html#' + p.slug,
+      rowBg: i === hoverIdx ? 'var(--surface-card)' : 'transparent',
+      rowShadow: i === hoverIdx ? 'var(--shadow-sm)' : 'none',
+      rowShift: i === hoverIdx ? 'translateX(4px)' : 'none',
+      anim: rev(1, 'fade-in-up', 120 + i * 80),
+      onHover: () => this.setState({ hoverIdx: i }),
+    }));
+    const services = (window.ANI_SERVICES || []).map((s, i) => ({ ...s, index: i, anim: rev(2, 'fade-in-up', 120 + i * 80) }));
+    const layout = this.props.workLayout ?? 'Editorial split';
+    const lottieUrl = (this.props.heroLottie ?? 'https://lottie.host/08cb3a32-e4c4-40f8-854b-851d2988fff8/66Mw3tUnLk.lottie').trim();
+    const aboutUrl = (this.props.aboutLottie ?? 'https://lottie.host/e9bb1186-c7f4-4181-8a73-bdff02f8440c/WCRkGPlthD.lottie').trim();
+    const contactUrl = (this.props.contactLottie ?? 'https://lottie.host/f0502aa7-ce50-45d1-9a35-31ec6d37a66a/HtfqISa9LC.lottie').trim();
+    const player = (src) => src ? React.createElement('dotlottie-wc', { src, autoplay: '', loop: '', style: { width: '100%', height: '100%', display: 'block' } }) : null;
+    const preview = raw[hoverIdx] || raw[0] || {};
+    // Editorial split: three featured at a time, paged like a carousel.
+    const size = 3, total = projects.length, pages = Math.max(1, Math.ceil(total / size));
+    const page = ((this.state.page % pages) + pages) % pages;
+    const start = page * size;
+    const pageProjects = projects.slice(start, start + size).map((p, i) => {
+      const active = start + i === hoverIdx;
+      return { ...p,
+        anim: rev(1, 'fade-in-up', 160 + i * 90),
+        rowBg: active ? 'var(--surface-card)' : 'transparent',
+        rowShadow: active ? 'var(--shadow-sm)' : 'none',
+        rowShift: active ? 'translateX(6px)' : 'none',
+        nameColor: active ? 'var(--coral-500)' : 'var(--text-title)',
+        numColor: active ? 'var(--coral-500)' : 'var(--ink-300)' };
+    });
+    // Desk stack: prints scattered on a table, clicked one comes to the front.
+    const spots = [
+      { left: '1%', top: '2%', rot: -6 }, { left: '17%', top: '13%', rot: 4 },
+      { left: '33%', top: '0%', rot: -3 }, { left: '49%', top: '14%', rot: 7 },
+      { left: '64%', top: '3%', rot: -5 }, { left: '78%', top: '15%', rot: 3 },
+    ];
+    const deskCards = projects.map((p, i) => {
+      const s = spots[i % spots.length], active = i === hoverIdx;
+      return { ...p, left: s.left, top: s.top, z: active ? 60 : 10 + i,
+        numColor: active ? 'var(--coral-500)' : 'var(--ink-300)',
+        transform: active ? 'rotate(0deg) translateY(-14px) scale(1.04)' : `rotate(${s.rot}deg)`,
+        shadow: active ? 'var(--shadow-lg)' : 'var(--shadow-sm)',
+        img: p.image ? React.createElement('img', { src: p.image, alt: p.name, style: { width: '100%', height: '100%', objectFit: 'cover', display: 'block' } }) : null,
+        onPick: (e) => { e && e.preventDefault(); this.setState({ hoverIdx: i }); } };
+    });
+    const pageLabel = total ? `${String(start + 1).padStart(2, '0')} – ${String(Math.min(start + size, total)).padStart(2, '0')} / ${String(total).padStart(2, '0')}` : '';
+    const flipPage = (d) => (e) => {
+      e && e.preventDefault();
+      const next = ((page + d) % pages + pages) % pages;
+      this.setState({ page: next, hoverIdx: next * size });
+    };
+    const prevPage = flipPage(-1), nextPage = flipPage(1);
+    return {
+      five: 5, sec, navItems, activeItem: navItems[sec],
+      trackX: `translateX(-${sec * 100}vw)`,
+      goTo: this.goTo,
+      onNavigate: (item) => this.goTo(navItems.indexOf(item)),
+      goWork: (e) => { e && e.preventDefault(); this.goTo(1); },
+      projects, services,
+      previewImage: preview.heroImage, previewName: preview.name,
+      previewHref: 'AniDesignIt Case Study.dc.html#' + (preview.slug || ''),
+      previewSummary: preview.summary, previewTools: (preview.tools || []).slice(0, 4),
+      pageProjects, pageLabel, prevPage, nextPage, deskCards,
+      workDesk: layout === 'Desk stack', workSplit: layout === 'Editorial split', workGrid: layout === 'Card grid', workIndex: layout === 'Index list', workStrip: layout === 'Film strip',
+      hasLottie: !!lottieUrl, noLottie: !lottieUrl,
+      lottiePlayer: player(lottieUrl),
+      hasAboutLottie: !!aboutUrl, aboutLottiePlayer: player(aboutUrl),
+      hasContactLottie: !!contactUrl, contactLottiePlayer: player(contactUrl),
+      previewImg: preview.heroImage ? React.createElement('img', { src: preview.heroImage, alt: preview.name, style: { width: '100%', height: '100%', objectFit: 'cover', display: 'block' } }) : null,
+      aboutTools: ['Figma', 'Astro', 'Webflow', 'Tailwind', 'Lottie', 'After Effects', 'Illustrator', 'Firebase']
+        .map((label, i) => ({ label, anim: rev(3, 'fade-in', 500 + i * 60) })),
+      railOrientation: mobile ? 'horizontal' : 'vertical',
+      heroAnim: rev(0, 'fade-in-up', 60),
+      heroArtAnim: rev(0, 'scale-in', 220),
+      workAnim: rev(1, 'fade-in-up', 0),
+      previewAnim: rev(1, 'scale-in', 180),
+      svcHeadAnim: rev(2, 'fade-in-up', 0),
+      aboutAnim: rev(3, 'fade-in-up', 120),
+      aboutArtAnim: rev(3, 'scale-in', 0),
+      aboutFadeAnim: rev(3, 'fade-in', 120),
+      contactAnim: rev(4, 'fade-in-up', 60),
+      formAnim: rev(4, 'fade-in-up', 220),
+      four: 4,
+      formName: this.state.formName, formEmail: this.state.formEmail, formMsg: this.state.formMsg,
+      formStatus: this.state.formStatus,
+      formStatusMsg: this.state.formStatus === 'success' ? 'Thank you! I\u2019ll get back to you soon.' : 'Please fill in your name, a valid email, and a message.',
+      onName: (e) => this.setState({ formName: e.target.value, formStatus: null }),
+      onEmail: (e) => this.setState({ formEmail: e.target.value, formStatus: null }),
+      onMsg: (e) => this.setState({ formMsg: e.target.value, formStatus: null }),
+      onSubmit: (e) => {
+        e && e.preventDefault();
+        const { formName, formEmail, formMsg } = this.state;
+        const ok = formName.trim() && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formEmail) && formMsg.trim();
+        this.setState({ formStatus: ok ? 'success' : 'error' });
+      },
+    };
+  }
+}
+</script>
+</body>
+</html>

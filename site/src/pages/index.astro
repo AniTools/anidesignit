@@ -1,0 +1,972 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import SmartImage from '../components/SmartImage.astro';
+import Base from '../layouts/Base.astro';
+import NavBar from '../components/NavBar.astro';
+import SocialRail from '../components/SocialRail.astro';
+import SectionDots from '../components/SectionDots.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import ServiceItem from '../components/ServiceItem.astro';
+import Button from '../components/Button.astro';
+import Tag from '../components/Tag.astro';
+import Icon from '../components/Icon.astro';
+import Lottie from '../components/Lottie.astro';
+import Field from '../components/Field.astro';
+
+const copy = (await getEntry('site', 'copy'))!.data;
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
+
+const NAV = ['Home', 'My Work', 'Services', 'About Me', 'Contact'];
+
+/* Editorial split shows three projects at a time, paged like a carousel. */
+const PER_PAGE = 3;
+const pages: (typeof projects)[] = [];
+for (let i = 0; i < projects.length; i += PER_PAGE) pages.push(projects.slice(i, i + PER_PAGE));
+
+const num = (i: number) => String(i + 1).padStart(2, '0');
+const toolsLine = (tools: string[]) => tools.slice(0, 4).join(' · ');
+---
+
+<Base
+  title={`${copy.name} — ${copy.role}`}
+  description={copy.heroSubtitle}
+  image={projects[0]?.data.heroImage}
+>
+  <div class="root">
+    <div class="nav-fixed">
+      <NavBar items={NAV} active="Home" hrefBase="/" />
+    </div>
+
+    <div class="rail-fixed">
+      <SocialRail links={copy.social} />
+    </div>
+
+    <div class="dots-fixed">
+      <SectionDots count={NAV.length} labels={NAV} />
+    </div>
+
+    <div class="track" data-track>
+      <!-- ─────────────────────────────  HERO  ───────────────────────────── -->
+      <section class="section" id="home" data-section="0">
+        <div class="wrap cols hero-cols">
+          <div class="stack reveal">
+            <div class="eyebrow">{copy.role}</div>
+            <h1 class="hero-title">{copy.name}</h1>
+            <p class="lede">{copy.heroSubtitle}</p>
+            <p class="muted">{copy.heroBody}</p>
+            <div class="row">
+              <Button variant="primary" icon="arrow-right" data-goto="1">Explore My Work</Button>
+              <Button variant="outline" href={copy.booking}>Book a call</Button>
+            </div>
+          </div>
+          <div class="center">
+            <Lottie src={copy.lottieHero} class="lottie-hero" />
+          </div>
+        </div>
+      </section>
+
+      <!-- ────────────────────────────  MY WORK  ─────────────────────────── -->
+      <section class="section" id="my-work" data-section="1">
+        <div class="wrap column tight">
+          <div class="cols work-cols">
+            <div class="work-list scroll">
+              <header class="stack reveal gap-sm">
+                <div class="eyebrow">Selected Work · 2024–2025</div>
+                <h2 class="h1">My Work</h2>
+              </header>
+
+              <div class="pages" data-pages>
+                {
+                  pages.map((group, pi) => (
+                    <div class="page" data-page={pi} data-active={pi === 0 ? '' : undefined}>
+                      {group.map((p) => {
+                        const gi = projects.indexOf(p);
+                        return (
+                          <a
+                            href={`/work/${p.id}`}
+                            class="work-row"
+                            data-row={gi}
+                            data-active={gi === 0 ? '' : undefined}
+                          >
+                            <span class="row-num">{num(gi)}</span>
+                            <span class="row-main">
+                              <span class="row-name">{p.data.name}</span>
+                              <span class="row-meta">
+                                {p.data.role} · {toolsLine(p.data.tools)}
+                              </span>
+                            </span>
+                            <span class="row-year">{p.data.year}</span>
+                          </a>
+                        );
+                      })}
+                    </div>
+                  ))
+                }
+              </div>
+
+              <div class="pager reveal">
+                <span class="pager-label" data-page-label>
+                  01 / {String(pages.length).padStart(2, '0')}
+                </span>
+                <span class="rule"></span>
+                <button type="button" class="pager-btn" aria-label="Previous projects" data-page-prev>
+                  <Icon name="arrow-left" size={18} />
+                </button>
+                <button
+                  type="button"
+                  class="pager-btn is-next"
+                  aria-label="Next projects"
+                  data-page-next
+                >
+                  <Icon name="arrow-right" size={18} />
+                </button>
+              </div>
+            </div>
+
+            <div class="work-preview scroll">
+              <div class="preview-frame">
+                {
+                  projects.map((p, i) => (
+                    <SmartImage
+                      src={p.data.heroImage}
+                      alt={p.data.name}
+                      class="preview-img"
+                      data-preview={i}
+                      data-active={i === 0 ? '' : undefined}
+                      widths={[480, 800, 1200]}
+                      sizes="(max-width: 768px) 100vw, 620px"
+                      loading={i === 0 ? 'eager' : 'lazy'}
+                    />
+                  ))
+                }
+              </div>
+              <div class="preview-meta">
+                {
+                  projects.map((p, i) => (
+                    <div class="preview-caption" data-caption={i} data-active={i === 0 ? '' : undefined}>
+                      <div class="caption-text">
+                        <span class="caption-name">{p.data.name}</span>
+                        <span class="caption-summary">{p.data.subtitle}</span>
+                        <a href={`/work/${p.id}`} class="caption-link">
+                          <span>View case study</span>
+                          <Icon name="arrow-right" size={14} />
+                        </a>
+                      </div>
+                      <div class="caption-tools">
+                        {p.data.tools.map((t) => (
+                          <Tag>{t}</Tag>
+                        ))}
+                      </div>
+                    </div>
+                  ))
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ────────────────────────────  SERVICES  ────────────────────────── -->
+      <section class="section" id="services" data-section="2">
+        <div class="wrap column center-y">
+          <SectionHeading
+            eyebrow={copy.servicesEyebrow}
+            title="Services"
+            subtitle={copy.servicesSubtitle}
+            class="reveal services-heading"
+          />
+          <div class="grid3 scroll">
+            {
+              services.map((s, i) => (
+                <ServiceItem
+                  icon={s.data.icon}
+                  title={s.data.title}
+                  description={s.data.description}
+                  index={i}
+                />
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <!-- ───────────────────────────  ABOUT ME  ─────────────────────────── -->
+      <section class="section" id="about-me" data-section="3">
+        <div class="wrap cols about-cols">
+          <div class="portrait-slot">
+            <Lottie src={copy.lottieAbout} class="lottie-about" />
+            <SmartImage
+              class="portrait"
+              src={copy.portrait}
+              alt={copy.name}
+              widths={[240, 480]}
+              sizes="(max-width: 768px) 52vw, 240px"
+            />
+          </div>
+          <div class="stack reveal">
+            <SectionHeading
+              eyebrow="About"
+              title={copy.aboutHeading}
+              subtitle={copy.aboutSubtitle}
+              class="flush"
+            />
+            {copy.aboutBody.map((para, i) => <p class={i === 0 ? 'body' : 'muted'}>{para}</p>)}
+            <div class="chips">
+              {copy.aboutTools.map((t) => <span class="chip">{t}</span>)}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ────────────────────────────  CONTACT  ─────────────────────────── -->
+      <section class="section" id="contact" data-section="4">
+        <div class="wrap cols contact-cols">
+          <div class="stack reveal">
+            <SectionHeading
+              eyebrow="Contact"
+              title={copy.contactHeading}
+              subtitle={copy.contactBody}
+              class="flush"
+            />
+            <div class="row">
+              <Button variant="primary" icon="calendar" href={copy.booking}>
+                Book a discovery call
+              </Button>
+            </div>
+            <div class="contact-details">
+              <div class="details-text">
+                <a href={`mailto:${copy.email}`} class="strong">{copy.email}</a>
+                <span>{copy.phone}</span>
+                <span>{copy.location}</span>
+              </div>
+              <Lottie src={copy.lottieContact} class="lottie-contact" />
+            </div>
+          </div>
+
+          <div class="form-slot">
+            <form
+              class="contact-form reveal"
+              name="contact"
+              method="POST"
+              data-netlify="true"
+              netlify-honeypot="bot-field"
+              data-contact-form
+            >
+              <input type="hidden" name="form-name" value="contact" />
+              <p class="hp">
+                <label>Don’t fill this out: <input name="bot-field" tabindex="-1" /></label>
+              </p>
+              <div class="cols form-cols">
+                <Field label="Name" name="name" placeholder="Your name" required />
+                <Field label="Email" name="email" type="email" placeholder="you@example.com" required />
+              </div>
+              <Field
+                as="textarea"
+                label="Message"
+                name="message"
+                placeholder="Tell me about your project…"
+                rows={4}
+                required
+              />
+              <div class="form-actions">
+                <Button variant="primary" icon="send" type="submit" data-submit>Send message</Button>
+                <div class="form-status" role="status" data-status hidden>
+                  <span class="status-icon" data-status-ok><Icon name="check-circle" size={18} /></span>
+                  <span class="status-icon" data-status-err hidden><Icon name="alert-circle" size={18} /></span>
+                  <span data-status-text></span>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</Base>
+
+<script>
+  /* ── Horizontal section navigation ───────────────────────────────────────
+     Desktop moves a 500vw track; under 768px the CSS stacks the sections and
+     this whole controller stands down in favour of native scrolling. */
+  const track = document.querySelector<HTMLElement>('[data-track]');
+  const sections = [...document.querySelectorAll<HTMLElement>('[data-section]')];
+  const dots = [...document.querySelectorAll<HTMLElement>('[data-dot]')];
+  const navLinks = [...document.querySelectorAll<HTMLAnchorElement>('[data-nav-item]')];
+  const NAV = ['Home', 'My Work', 'Services', 'About Me', 'Contact'];
+
+  const isMobile = () => window.innerWidth <= 768;
+  let current = 0;
+  let lock = 0;
+
+  /* The track is a 500vw flex row inside an overflow:hidden box, moved by
+     transform alone. A #fragment in the URL makes the browser scroll that box
+     natively to reveal the target section, which stacks on top of the transform
+     and lands the viewer one section off. Every "All work" link back from a case
+     study points at /#my-work, so pin the container at zero and keep it there. */
+  const root = document.querySelector<HTMLElement>('.root');
+  const pinRoot = () => {
+    if (!root) return;
+    if (root.scrollLeft !== 0) root.scrollLeft = 0;
+    if (root.scrollTop !== 0) root.scrollTop = 0;
+  };
+  root?.addEventListener('scroll', pinRoot);
+
+  const render = () => {
+    if (!track) return;
+    track.style.transform = isMobile() ? 'none' : `translateX(-${current * 100}vw)`;
+    dots.forEach((d, i) => d.toggleAttribute('data-active', i === current));
+    navLinks.forEach((a) =>
+      a.classList.toggle('is-active', a.dataset.navItem === NAV[current])
+    );
+    /* Reveal animations replay each time a section comes back into view. */
+    sections.forEach((s, i) => s.toggleAttribute('data-visible', isMobile() || i === current));
+    if (!isMobile()) history.replaceState(null, '', `#${sections[current].id}`);
+    pinRoot();
+  };
+
+  const goTo = (i: number) => {
+    current = Math.max(0, Math.min(sections.length - 1, i));
+    render();
+  };
+
+  /* Let an inner scrollable column absorb the delta before the track moves. */
+  const innerScroller = (target: EventTarget | null, dir: number) => {
+    let el = target instanceof Element ? target : null;
+    while (el && !el.classList.contains('section')) {
+      const cs = getComputedStyle(el);
+      if (/(auto|scroll)/.test(cs.overflowY) && el.scrollHeight > el.clientHeight + 1) {
+        const room =
+          dir > 0
+            ? el.scrollHeight - el.clientHeight - el.scrollTop > 1
+            : el.scrollTop > 1;
+        if (room) return el;
+      }
+      el = el.parentElement;
+    }
+    return null;
+  };
+
+  window.addEventListener(
+    'wheel',
+    (e) => {
+      if (isMobile()) return;
+      if (innerScroller(e.target, e.deltaY > 0 ? 1 : -1)) return;
+      e.preventDefault();
+      const now = Date.now();
+      if (now - lock < 850 || Math.abs(e.deltaY) < 12) return;
+      lock = now;
+      goTo(current + (e.deltaY > 0 ? 1 : -1));
+    },
+    { passive: false }
+  );
+
+  window.addEventListener('keydown', (e) => {
+    if (isMobile()) return;
+    const t = e.target as HTMLElement | null;
+    if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+    const fwd = e.key === 'ArrowRight' || e.key === 'ArrowDown';
+    const back = e.key === 'ArrowLeft' || e.key === 'ArrowUp';
+    if (!fwd && !back) return;
+    if (innerScroller(t, fwd ? 1 : -1)) return;
+    e.preventDefault();
+    goTo(current + (fwd ? 1 : -1));
+  });
+
+  window.addEventListener('resize', render);
+
+  dots.forEach((d, i) => d.addEventListener('click', () => goTo(i)));
+
+  document.querySelectorAll<HTMLElement>('[data-goto]').forEach((el) =>
+    el.addEventListener('click', () => goTo(Number(el.dataset.goto)))
+  );
+
+  navLinks.forEach((a) =>
+    a.addEventListener('click', (e) => {
+      const i = NAV.indexOf(a.dataset.navItem!);
+      if (i < 0 || isMobile()) return;
+      e.preventDefault();
+      goTo(i);
+    })
+  );
+
+  /* Deep links (/#services, and the "All work" link back from a case study). */
+  const fromHash = sections.findIndex((s) => `#${s.id}` === location.hash);
+  goTo(fromHash > 0 ? fromHash : 0);
+  pinRoot();
+
+  /* ── My Work: hover preview + pagination ─────────────────────────────── */
+  const rows = [...document.querySelectorAll<HTMLElement>('[data-row]')];
+  const previews = [...document.querySelectorAll<HTMLElement>('[data-preview]')];
+  const captions = [...document.querySelectorAll<HTMLElement>('[data-caption]')];
+
+  const select = (idx: number) => {
+    rows.forEach((r) => r.toggleAttribute('data-active', Number(r.dataset.row) === idx));
+    previews.forEach((p) => p.toggleAttribute('data-active', Number(p.dataset.preview) === idx));
+    captions.forEach((c) => c.toggleAttribute('data-active', Number(c.dataset.caption) === idx));
+  };
+
+  rows.forEach((r) => {
+    const idx = Number(r.dataset.row);
+    r.addEventListener('mouseenter', () => select(idx));
+    r.addEventListener('focus', () => select(idx));
+  });
+
+  const pageEls = [...document.querySelectorAll<HTMLElement>('[data-page]')];
+  const pageLabel = document.querySelector<HTMLElement>('[data-page-label]');
+  let page = 0;
+
+  const showPage = (next: number) => {
+    page = ((next % pageEls.length) + pageEls.length) % pageEls.length;
+    pageEls.forEach((p, i) => p.toggleAttribute('data-active', i === page));
+    if (pageLabel) {
+      pageLabel.textContent = `${String(page + 1).padStart(2, '0')} / ${String(pageEls.length).padStart(2, '0')}`;
+    }
+    /* Move the preview to the first project on the newly shown page. */
+    const first = pageEls[page].querySelector<HTMLElement>('[data-row]');
+    if (first) select(Number(first.dataset.row));
+  };
+
+  document
+    .querySelector('[data-page-prev]')
+    ?.addEventListener('click', () => showPage(page - 1));
+  document
+    .querySelector('[data-page-next]')
+    ?.addEventListener('click', () => showPage(page + 1));
+
+  /* ── Contact form (Netlify Forms, submitted over fetch) ──────────────── */
+  const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
+  const status = document.querySelector<HTMLElement>('[data-status]');
+  const statusText = document.querySelector<HTMLElement>('[data-status-text]');
+  const statusOk = document.querySelector<HTMLElement>('[data-status-ok]');
+  const statusErr = document.querySelector<HTMLElement>('[data-status-err]');
+  const submit = document.querySelector<HTMLButtonElement>('[data-submit]');
+
+  const setStatus = (ok: boolean, message: string) => {
+    if (!status || !statusText) return;
+    status.hidden = false;
+    status.toggleAttribute('data-error', !ok);
+    statusOk?.toggleAttribute('hidden', !ok);
+    statusErr?.toggleAttribute('hidden', ok);
+    statusText.textContent = message;
+  };
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!form.reportValidity()) return;
+    if (submit) submit.disabled = true;
+    try {
+      const res = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(new FormData(form) as unknown as Record<string, string>),
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      form.reset();
+      setStatus(true, 'Thank you — I’ll be in touch soon.');
+    } catch {
+      setStatus(
+        false,
+        'That didn’t send. Please email hello@anidesignit.com instead.'
+      );
+    } finally {
+      if (submit) submit.disabled = false;
+    }
+  });
+</script>
+
+<style>
+  /* ── Shell ─────────────────────────────────────────────────────────── */
+  .root {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+    background: var(--blush-025);
+    font-family: var(--font-sans);
+    color: var(--text-body);
+  }
+  .nav-fixed { position: fixed; inset: 0 0 auto 0; z-index: 50; }
+  .rail-fixed { position: fixed; left: 20px; bottom: 28px; z-index: 40; display: flex; }
+  .dots-fixed {
+    position: fixed;
+    right: 22px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 40;
+  }
+
+  .track {
+    display: flex;
+    width: 500vw;
+    height: 100vh;
+    transition: transform var(--duration-section) var(--ease-out);
+    will-change: transform;
+  }
+
+  .section {
+    width: 100vw;
+    height: 100vh;
+    box-sizing: border-box;
+    padding: calc(var(--nav-height) + 16px) var(--section-pad-x) 40px;
+    display: flex;
+    overflow-y: auto;
+  }
+  .section#my-work,
+  .section#services {
+    padding-top: calc(var(--nav-height) + 8px);
+    padding-bottom: 32px;
+    overflow: hidden;
+    flex-direction: column;
+  }
+
+  .wrap { max-width: var(--max-content); margin: auto; width: 100%; }
+  .wrap.column {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    flex: 1;
+  }
+  .wrap.tight { justify-content: center; }
+  .wrap.center-y { justify-content: center; align-items: stretch; }
+
+  .cols { display: grid; gap: var(--space-12); align-items: center; }
+  .hero-cols { grid-template-columns: 1.05fr 0.95fr; }
+  .work-cols { grid-template-columns: 1fr 1.05fr; align-items: stretch; min-height: 0; flex: 1; }
+  .about-cols { grid-template-columns: 0.85fr 1.15fr; gap: var(--space-16); }
+  .contact-cols { grid-template-columns: 1fr 1.1fr; gap: var(--space-16); }
+  .form-cols { grid-template-columns: 1fr 1fr; gap: var(--space-5); }
+
+  .stack { display: flex; flex-direction: column; gap: var(--space-6); align-items: flex-start; }
+  .stack.gap-sm { gap: var(--space-2); }
+  .row { display: flex; gap: var(--space-4); align-items: center; flex-wrap: wrap; }
+  .center { display: flex; justify-content: center; }
+  .scroll { overflow-y: auto; min-height: 0; }
+
+  /* ── Type ──────────────────────────────────────────────────────────── */
+  .eyebrow {
+    font-size: var(--text-label);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-eyebrow);
+    color: var(--coral-500);
+  }
+  .hero-title {
+    font-family: var(--font-title);
+    font-weight: 700;
+    font-size: clamp(3rem, 5.2vw, 4.75rem);
+    line-height: var(--leading-display);
+    letter-spacing: var(--tracking-display);
+    color: var(--text-title);
+    margin: 0;
+  }
+  .h1 {
+    font-family: var(--font-title);
+    font-weight: 700;
+    font-size: var(--text-h1);
+    line-height: var(--leading-title);
+    color: var(--text-title);
+    margin: 0;
+  }
+  .lede {
+    font-weight: 600;
+    font-style: italic;
+    font-size: var(--text-subtitle);
+    line-height: var(--leading-subtitle);
+    color: var(--text-title);
+    margin: 0;
+    max-width: 34ch;
+  }
+  .muted {
+    font-size: var(--text-body-md);
+    line-height: var(--leading-body);
+    color: var(--text-muted);
+    margin: 0;
+    max-width: var(--measure-prose);
+  }
+  .body {
+    font-size: var(--text-body-md);
+    line-height: var(--leading-body);
+    color: var(--text-body);
+    margin: 0;
+    max-width: var(--measure-prose);
+  }
+
+  /* ── Reveal on section entry ───────────────────────────────────────── */
+  .reveal,
+  .section :global(.ani-fade-in-up) { opacity: 0; }
+  .section[data-visible] .reveal {
+    animation: ani-fade-in-up var(--duration-reveal) var(--ease-out) both;
+  }
+  .section[data-visible] :global(.ani-fade-in-up) {
+    animation: ani-fade-in-up var(--duration-reveal) var(--ease-out) both;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal,
+    .section :global(.ani-fade-in-up) { opacity: 1; animation: none !important; }
+  }
+
+  /* Selectors below target elements rendered by child components (Lottie,
+     SmartImage, SectionHeading). Astro scopes styles per component and does not
+     forward this page's scope into a child, so these opt out of scoping. The
+     class names are unique to this page, so :global() is safe here. */
+
+  /* ── Hero ──────────────────────────────────────────────────────────── */
+  :global(.lottie-hero) { width: min(30vw, 480px); aspect-ratio: 1; }
+
+  /* ── My Work ───────────────────────────────────────────────────────── */
+  .work-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: safe center;
+    gap: var(--space-6);
+  }
+  .pages { display: flex; flex-direction: column; }
+  .page { display: none; flex-direction: column; }
+  .page[data-active] { display: flex; }
+
+  .work-row {
+    display: grid;
+    grid-template-columns: 40px 1fr auto;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-5) var(--space-4);
+    text-decoration: none;
+    border-top: 1px solid var(--border-hairline);
+    border-bottom: none;
+    border-radius: var(--radius-md);
+    background: transparent;
+    transition:
+      background var(--duration-fast) var(--ease-out),
+      box-shadow var(--duration-base) var(--ease-out),
+      transform var(--duration-base) var(--ease-out);
+  }
+  .work-row[data-active] {
+    background: var(--surface-card);
+    box-shadow: var(--shadow-sm);
+    transform: translateX(6px);
+  }
+  .row-num {
+    font-size: var(--text-caption);
+    font-weight: 600;
+    color: var(--ink-300);
+    font-variant-numeric: tabular-nums;
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+  .work-row[data-active] .row-num { color: var(--coral-500); }
+  .row-main { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .row-name {
+    font-family: var(--font-title);
+    font-weight: 700;
+    font-size: var(--text-h3);
+    line-height: var(--leading-tight);
+    color: var(--text-title);
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+  .work-row[data-active] .row-name { color: var(--coral-500); }
+  .row-meta {
+    font-size: var(--text-caption);
+    color: var(--text-muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .row-year {
+    font-size: var(--text-caption);
+    font-weight: 600;
+    color: var(--coral-500);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .pager {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding-left: var(--space-4);
+  }
+  .pager-label {
+    font-size: var(--text-caption);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    color: var(--ink-400);
+    font-variant-numeric: tabular-nums;
+  }
+  .rule { flex: 1; height: 1px; background: var(--border-hairline); }
+  .pager-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--border-hairline);
+    background: var(--surface-card);
+    color: var(--ink-700);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--duration-fast) var(--ease-out);
+  }
+  .pager-btn:hover { border-color: var(--coral-500); color: var(--coral-500); }
+  .pager-btn.is-next {
+    border-color: transparent;
+    background: var(--coral-500);
+    color: #fff;
+  }
+  .pager-btn.is-next:hover { background: var(--coral-600); color: #fff; }
+
+  .work-preview {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: safe center;
+  }
+  .preview-frame {
+    position: relative;
+    flex: none;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--blush-200);
+    box-shadow: var(--shadow-md);
+    height: min(52vh, 520px);
+    min-height: 220px;
+  }
+  :global(.preview-img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity var(--duration-base) var(--ease-out);
+  }
+  :global(.preview-img[data-active]) { opacity: 1; }
+
+  .preview-meta { position: relative; margin-top: var(--space-5); }
+  .preview-caption {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-5);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--duration-base) var(--ease-out);
+  }
+  /* Stack every caption in the same box so the tallest one sets the height and
+     switching projects never shifts the layout under the cursor. */
+  .preview-caption:not(:first-child) { position: absolute; inset: 0 0 auto 0; }
+  .preview-caption[data-active] { opacity: 1; pointer-events: auto; }
+  .caption-text { display: flex; flex-direction: column; gap: 4px; }
+  .caption-name {
+    font-family: var(--font-title);
+    font-weight: 700;
+    font-size: var(--text-h4);
+    color: var(--text-title);
+  }
+  .caption-summary {
+    font-weight: 600;
+    font-style: italic;
+    font-size: var(--text-body-sm);
+    line-height: var(--leading-subtitle);
+    color: var(--text-accent);
+    max-width: 46ch;
+  }
+  .caption-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 6px;
+    font-size: var(--text-caption);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    text-decoration: none;
+  }
+  .caption-tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    justify-content: flex-end;
+  }
+
+  /* ── Services ──────────────────────────────────────────────────────── */
+  :global(.services-heading) { margin-bottom: var(--space-8); }
+  .grid3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: max-content;
+    align-content: start;
+    gap: var(--space-5);
+    overflow-y: auto;
+    min-height: 0;
+  }
+
+  /* ── About ─────────────────────────────────────────────────────────── */
+  .portrait-slot {
+    justify-self: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  /* The slot shrink-wraps the 240px portrait, so this backdrop is wider than
+     its containing block — `inset:0; margin:auto` would leave it pinned left
+     and overflowing right. Centre from the midpoint instead. */
+  :global(.lottie-about) {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(40vw, 500px);
+    height: min(40vw, 500px);
+    z-index: 0;
+    pointer-events: none;
+  }
+  :global(.portrait) {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 240px;
+    height: auto;
+  }
+  .chips { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+  .chip {
+    font-size: var(--text-caption);
+    font-weight: 600;
+    color: var(--ink-700);
+    background: var(--surface-card);
+    border-radius: var(--radius-pill);
+    padding: 6px 14px;
+    box-shadow: var(--shadow-xs);
+    transition:
+      transform var(--duration-fast) var(--ease-out),
+      box-shadow var(--duration-fast) var(--ease-out);
+  }
+  .chip:hover { box-shadow: var(--shadow-sm); transform: translateY(-2px); }
+  :global(.flush) { margin-bottom: 0 !important; }
+
+  /* ── Contact ───────────────────────────────────────────────────────── */
+  .contact-details {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    flex-wrap: wrap;
+  }
+  .details-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    font-size: var(--text-body-sm);
+    color: var(--text-muted);
+  }
+  .strong { font-weight: 600; }
+  :global(.lottie-contact) { width: min(20vw, 260px); height: min(16vw, 200px); flex: none; }
+
+  .form-slot { display: flex; flex-direction: column; min-width: 0; }
+  .contact-form {
+    background: var(--blush-100);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+  .hp { position: absolute; left: -9999px; }
+  .form-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+  .form-status {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-family: var(--font-sans);
+    font-size: var(--text-body-sm);
+    padding: 12px 16px;
+    border-radius: var(--radius-md);
+    background: color-mix(in oklch, var(--status-success) 12%, var(--white));
+    color: var(--status-success);
+  }
+  .form-status[data-error] { background: var(--coral-200); color: var(--coral-700); }
+  .status-icon { display: inline-flex; }
+
+  /* ── Tablet ────────────────────────────────────────────────────────── */
+  @media (max-width: 1024px) {
+    .grid3 { grid-template-columns: repeat(2, 1fr); }
+    .row-name { font-size: var(--text-h4); }
+    .work-row { padding: 14px 10px; gap: 12px; }
+    .preview-frame { height: min(42vh, 380px); }
+    .section {
+      padding-left: calc(var(--social-rail-width) + 12px);
+      padding-right: calc(var(--social-rail-width) + 12px);
+    }
+  }
+
+  /* ── Phone: the track unwinds into a normal vertical page ──────────── */
+  @media (max-width: 768px) {
+    .root { height: auto; overflow: visible; }
+    .track { flex-direction: column; width: 100vw; transform: none !important; }
+    .section {
+      width: 100vw;
+      height: auto;
+      min-height: auto;
+      overflow: visible;
+      padding: calc(var(--nav-height) + 24px) 24px 56px;
+    }
+    .section#my-work,
+    .section#services { overflow: visible; padding-top: calc(var(--nav-height) + 24px); }
+    .wrap.column { flex: none; }
+    .cols { grid-template-columns: 1fr !important; gap: 32px; }
+    .work-cols { flex: none; }
+    .grid3 { grid-template-columns: 1fr; overflow: visible; }
+    .scroll { overflow: visible; }
+    .dots-fixed { display: none; }
+    .rail-fixed {
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 10px 0;
+      background: color-mix(in srgb, var(--blush-025) 92%, transparent);
+      border-top: 1px solid var(--border-hairline);
+      backdrop-filter: blur(var(--blur-backdrop));
+      -webkit-backdrop-filter: blur(var(--blur-backdrop));
+      justify-content: center;
+      z-index: 45;
+    }
+    .rail-fixed :global(.ds-rail) { flex-direction: row; }
+    :global(.portrait) { width: 52vw; max-width: 240px; margin: 0 auto; }
+    :global(.lottie-about) { width: 68vw; height: 68vw; max-width: 320px; max-height: 320px; }
+    :global(.lottie-contact) { width: 56vw; height: 44vw; max-width: 240px; }
+    :global(.lottie-hero) { width: min(70vw, 320px); margin: 0 auto; }
+
+    /* Centre the editorial columns, but keep form fields left-aligned. */
+    .stack { align-items: center; text-align: center; }
+    .stack .row { justify-content: center; }
+    .lede, .muted, .body { margin-left: auto; margin-right: auto; }
+    .contact-details { justify-content: center; }
+    .details-text { align-items: center; }
+    .form-slot, .contact-form { align-items: stretch; text-align: left; }
+    .form-cols { grid-template-columns: 1fr !important; }
+
+    /* Image first (there is no hover on touch), then the tappable list. */
+    .work-list { display: contents; }
+    .work-list > header { order: 1; text-align: center; align-items: center; }
+    .work-preview { order: 2; }
+    .pages { order: 3; }
+    .pager { order: 4; }
+    .preview-frame { height: 46vh; min-height: 200px; }
+    .preview-caption { flex-direction: column; align-items: center; text-align: center; gap: 10px; }
+    .caption-text { align-items: center; }
+    .caption-tools { justify-content: center; }
+    .work-row {
+      grid-template-columns: 1fr;
+      justify-items: center;
+      text-align: center;
+      gap: 6px;
+      padding: 18px 12px;
+    }
+    .row-name { font-size: 1.6rem; }
+    .row-meta { font-size: var(--text-body-sm); white-space: normal; }
+  }
+</style>

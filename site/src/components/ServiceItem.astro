@@ -1,0 +1,59 @@
+---
+/* Ported from _ds ServiceItem.jsx — one cell of the six-up Services grid,
+   staggered in by index. */
+import Icon from './Icon.astro';
+
+interface Props {
+  icon: string;
+  title: string;
+  description: string;
+  index?: number;
+}
+const { icon, title, description, index = 0 } = Astro.props;
+---
+
+<div class="ds-service ani-fade-in-up" style={`animation-delay:${index * 90}ms`}>
+  <div class="glyph"><Icon name={icon} size={24} /></div>
+  <h3>{title}</h3>
+  <p>{description}</p>
+</div>
+
+<style>
+  .ds-service {
+    background: var(--surface-card);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    box-shadow: var(--shadow-sm);
+    transition:
+      box-shadow var(--duration-base) var(--ease-out),
+      transform var(--duration-base) var(--ease-out);
+  }
+  .ds-service:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-4px);
+  }
+  .glyph {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    display: grid;
+    place-items: center;
+    background: var(--coral-200);
+    color: var(--coral-700);
+    margin-bottom: var(--space-4);
+  }
+  h3 {
+    font-family: var(--font-title);
+    font-weight: 700;
+    font-size: var(--text-h4);
+    color: var(--text-title);
+    margin: 0 0 var(--space-2);
+  }
+  p {
+    font-size: var(--text-body-sm);
+    color: var(--text-muted);
+    line-height: var(--leading-body);
+    margin: 0;
+    max-width: none;
+  }
+</style>

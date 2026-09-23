@@ -1,0 +1,43 @@
+---
+/* Ported from _ds SocialRail.jsx. Font Awesome brand glyphs swapped for the
+   equivalent Lucide marks so the site ships no CDN stylesheet. */
+import Icon from './Icon.astro';
+
+interface Props {
+  links?: { label: string; icon: string; href: string }[];
+  orientation?: 'vertical' | 'horizontal';
+  class?: string;
+}
+const { links = [], orientation = 'vertical', class: className } = Astro.props;
+---
+
+<div class:list={['ds-rail', `is-${orientation}`, className]}>
+  {
+    links.map((l) => (
+      <a href={l.href} aria-label={l.label} target="_blank" rel="noreferrer">
+        <Icon name={l.icon} size={18} />
+      </a>
+    ))
+  }
+</div>
+
+<style>
+  .ds-rail { display: flex; gap: var(--space-4); align-items: center; }
+  .is-vertical { flex-direction: column; }
+  .is-horizontal { flex-direction: row; }
+  a {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-pill);
+    display: grid;
+    place-items: center;
+    background: var(--surface-card);
+    color: var(--ink-700);
+    box-shadow: var(--shadow-sm);
+    border: none;
+    transition:
+      background var(--duration-fast) var(--ease-out),
+      color var(--duration-fast) var(--ease-out);
+  }
+  a:hover { background: var(--coral-500); color: var(--text-on-accent); }
+</style>

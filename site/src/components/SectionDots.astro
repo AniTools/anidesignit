@@ -1,0 +1,49 @@
+---
+/* Ported from _ds SectionDots.jsx — progress dots for the horizontal section scroll.
+   Active state is driven by the page script via [data-active]. */
+interface Props {
+  count: number;
+  labels?: string[];
+  class?: string;
+}
+const { count, labels = [], class: className } = Astro.props;
+---
+
+<div class:list={['ds-dots', className]} data-dots>
+  {
+    Array.from({ length: count }).map((_, i) => (
+      <button
+        type="button"
+        data-dot={i}
+        aria-label={labels[i] ? `Go to ${labels[i]}` : `Go to section ${i + 1}`}
+      />
+    ))
+  }
+</div>
+
+<style>
+  .ds-dots {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    align-items: center;
+  }
+  button {
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border-radius: var(--radius-pill);
+    border: none;
+    cursor: pointer;
+    background: var(--ink-300);
+    transition:
+      background var(--duration-fast) var(--ease-out),
+      width var(--duration-fast) var(--ease-out),
+      height var(--duration-fast) var(--ease-out);
+  }
+  button[data-active] {
+    width: 10px;
+    height: 10px;
+    background: var(--coral-500);
+  }
+</style>

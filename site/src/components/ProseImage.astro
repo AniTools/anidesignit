@@ -1,0 +1,22 @@
+---
+/* Markdoc renders `![](url)` as a bare <img>, which would bypass the asset
+   pipeline and ship the 1-10MB originals straight to the browser. The Markdoc
+   config maps the image node here so body images get the same treatment as
+   everything else. */
+import SmartImage from './SmartImage.astro';
+
+interface Props {
+  src: string;
+  alt?: string;
+  title?: string;
+}
+const { src, alt = '', title } = Astro.props;
+---
+
+<SmartImage
+  src={src}
+  alt={alt}
+  title={title}
+  widths={[480, 800, 1200]}
+  sizes="(max-width: 768px) 100vw, 720px"
+/>

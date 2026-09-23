@@ -1,0 +1,74 @@
+---
+/* Ported from _ds ProjectNav.jsx — prev / next at the foot of a case study. */
+import Icon from './Icon.astro';
+
+interface Props {
+  prev?: { name: string; slug: string } | null;
+  next?: { name: string; slug: string } | null;
+}
+const { prev, next } = Astro.props;
+---
+
+<nav class="ds-projectnav">
+  {
+    prev ? (
+      <a href={`/work/${prev.slug}`} class="side is-prev">
+        <Icon name="arrow-left" size={20} />
+        <span>
+          <span class="dir">Previous</span>
+          <span class="name">{prev.name}</span>
+        </span>
+      </a>
+    ) : (
+      <span />
+    )
+  }
+  {
+    next ? (
+      <a href={`/work/${next.slug}`} class="side is-next">
+        <Icon name="arrow-right" size={20} />
+        <span>
+          <span class="dir">Next</span>
+          <span class="name">{next.name}</span>
+        </span>
+      </a>
+    ) : (
+      <span />
+    )
+  }
+</nav>
+
+<style>
+  .ds-projectnav {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-6);
+    border-top: 1px solid var(--border-hairline);
+    padding-top: var(--space-8);
+  }
+  .side {
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    color: var(--ink-700);
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+  .side:hover { color: var(--coral-500); border-bottom-color: transparent; }
+  .is-prev { text-align: left; flex-direction: row; }
+  .is-next { text-align: right; flex-direction: row-reverse; }
+  .dir {
+    display: block;
+    font-size: var(--text-label);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    color: var(--text-muted);
+  }
+  .name {
+    display: block;
+    font-family: var(--font-title);
+    font-weight: 700;
+    font-size: var(--text-body-lg);
+  }
+</style>

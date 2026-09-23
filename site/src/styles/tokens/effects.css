@@ -1,0 +1,48 @@
+/* AniDesignIt — edges, elevation, motion.
+   Radii: the brand mark's selection frame is hard-cornered (0), so frames and
+   handles stay square; content cards get a soft radius. */
+:root{
+  --radius-none:0;
+  --radius-sm:4px;
+  --radius-md:8px;
+  --radius-lg:16px;
+  --radius-xl:24px;
+  --radius-pill:999px;
+
+  --border-width-hairline:1px;
+  --border-width-frame:1px;   /* selection frames in the logo are 1px */
+  --border-width-strong:2px;
+  --handle-size:8px;          /* 7.07 x 7.46px in the logo SVG, rounded to 8 */
+
+  /* Elevation — warm-tinted, never neutral grey */
+  --shadow-xs:0 1px 2px rgba(63,65,66,0.06);
+  --shadow-sm:0 2px 8px rgba(63,65,66,0.07);
+  --shadow-md:0 8px 24px rgba(63,65,66,0.09);
+  --shadow-lg:0 18px 48px rgba(63,65,66,0.12);
+  --shadow-accent:0 12px 32px rgba(255,114,94,0.24);
+  --shadow-inset-hairline:inset 0 0 0 1px var(--border-hairline);
+  --ring-focus:0 0 0 3px rgba(255,114,94,0.35);
+
+  /* Motion — durations and easing lifted from tailwind.config.js keyframes */
+  --ease-out:cubic-bezier(0,0,0.2,1); /* @kind other */
+  --ease-in-out:cubic-bezier(0.4,0,0.2,1); /* @kind other */
+  --duration-fast:150ms; /* @kind other */
+  --duration-base:250ms; /* @kind other */
+  --duration-slow:600ms; /* @kind other */      /* scale-in  */
+  --duration-reveal:800ms; /* @kind other */    /* fade-in / fade-in-up */
+  --duration-section:700ms; /* @kind other */   /* horizontal section transition */
+
+  --blur-backdrop:12px;       /* mobile nav backdrop */
+}
+
+@keyframes ani-fade-in{from{opacity:0}to{opacity:1}}
+@keyframes ani-fade-in-up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes ani-scale-in{from{opacity:0;transform:scale(0.95)}to{opacity:1;transform:scale(1)}}
+
+.ani-fade-in{opacity:0;animation:ani-fade-in var(--duration-reveal) var(--ease-out) forwards}
+.ani-fade-in-up{opacity:0;animation:ani-fade-in-up var(--duration-reveal) var(--ease-out) forwards}
+.ani-scale-in{opacity:0;animation:ani-scale-in var(--duration-slow) var(--ease-out) forwards}
+
+@media (prefers-reduced-motion:reduce){
+  .ani-fade-in,.ani-fade-in-up,.ani-scale-in{animation:none!important;opacity:1!important;transform:none!important}
+}

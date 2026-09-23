@@ -1,0 +1,36 @@
+---
+/* Ported from _ds Testimonial.jsx — curly-quoted client line with em-dash attribution. */
+interface Props {
+  quote: string;
+  author?: string;
+}
+const { quote, author } = Astro.props;
+---
+
+<figure class="ds-quote">
+  <blockquote>&ldquo;{quote}&rdquo;</blockquote>
+  {author && <figcaption>&ndash; {author}</figcaption>}
+</figure>
+
+<style>
+  .ds-quote { margin: 0; }
+  blockquote {
+    font-family: var(--font-title);
+    font-weight: 400;
+    font-style: italic;
+    font-size: var(--text-h3);
+    line-height: var(--leading-subtitle);
+    color: var(--text-title);
+    margin: 0;
+    padding-left: var(--space-6);
+    border-left: 2px solid var(--coral-500);
+    max-width: var(--measure-narrow);
+  }
+  figcaption {
+    font-family: var(--font-sans);
+    font-size: var(--text-body-sm);
+    color: var(--text-muted);
+    margin-top: var(--space-4);
+    padding-left: var(--space-6);
+  }
+</style>

@@ -1,0 +1,118 @@
+---
+/* Ported from _ds NavBar.jsx — fixed 80px header, wordmark left, section links
+   right, hamburger under 768px. Transparent over the canvas on desktop (the
+   design treats it as a frame, not a surface); blurred blush on phones where it
+   floats over scrolling content. */
+import Icon from './Icon.astro';
+
+interface Props {
+  items?: string[];
+  active?: string;
+  /* On the case study pages the links point back to the landing page anchors. */
+  hrefBase?: string;
+}
+const { items = [], active, hrefBase = '' } = Astro.props;
+const anchor = (item: string) => `${hrefBase}#${item.toLowerCase().replace(/\s+/g, '-')}`;
+---
+
+<header class="ds-nav">
+  <a href={hrefBase || '/'} class="brand" aria-label="AniDesignIt — home">
+    <img src="/assets/logo-wordmark.svg" alt="AniDesignIt" width="150" height="34" />
+  </a>
+  <nav>
+    <div class="links" data-nav-links>
+      {
+        items.map((item) => (
+          <a
+            href={anchor(item)}
+            data-nav-item={item}
+            class:list={['link', { 'is-active': active === item }]}
+          >
+            {item}
+          </a>
+        ))
+      }
+    </div>
+    <button type="button" class="burger" aria-label="Menu" aria-expanded="false" data-burger>
+      <span data-burger-open><Icon name="menu" size={24} /></span>
+      <span data-burger-close hidden><Icon name="x" size={24} /></span>
+    </button>
+  </nav>
+</header>
+
+<script>
+  const burger = document.querySelector<HTMLButtonElement>('[data-burger]');
+  const links = document.querySelector<HTMLElement>('[data-nav-links]');
+  const open = document.querySelector<HTMLElement>('[data-burger-open]');
+  const close = document.querySelector<HTMLElement>('[data-burger-close]');
+
+  const setOpen = (next: boolean) => {
+    links?.toggleAttribute('data-open', next);
+    burger?.setAttribute('aria-expanded', String(next));
+    open?.toggleAttribute('hidden', next);
+    close?.toggleAttribute('hidden', !next);
+  };
+
+  burger?.addEventListener('click', () =>
+    setOpen(burger.getAttribute('aria-expanded') !== 'true')
+  );
+  links?.addEventListener('click', (e) => {
+    if ((e.target as HTMLElement).closest('a')) setOpen(false);
+  });
+</script>
+
+<style>
+  .ds-nav {
+    height: var(--nav-height);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--section-pad-x);
+    background: transparent;
+    border-bottom: 1px solid var(--border-hairline);
+  }
+  .brand { border: none; display: flex; align-items: center; }
+  .brand img { height: 34px; width: auto; }
+  nav { display: flex; align-items: center; gap: var(--space-8); }
+  .links { display: flex; gap: var(--space-8); }
+  .link {
+    font-family: var(--font-sans);
+    font-size: var(--text-body-sm);
+    font-weight: 600;
+    color: var(--ink-700);
+    border-bottom: 1px solid transparent;
+    padding-bottom: 2px;
+  }
+  .link:hover { color: var(--coral-500); border-bottom-color: var(--coral-500); }
+  .link.is-active { color: var(--coral-500); border-bottom-color: var(--coral-500); }
+  .burger {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--ink-700);
+    padding: 0;
+  }
+
+  @media (max-width: 768px) {
+    .ds-nav {
+      background: color-mix(in srgb, var(--blush-025) 90%, transparent);
+      backdrop-filter: blur(var(--blur-backdrop));
+      -webkit-backdrop-filter: blur(var(--blur-backdrop));
+    }
+    .burger { display: block; }
+    .links {
+      position: fixed;
+      inset: var(--nav-height) 0 auto 0;
+      flex-direction: column;
+      gap: var(--space-5);
+      padding: var(--space-6) var(--section-pad-x) var(--space-8);
+      background: color-mix(in srgb, var(--blush-025) 97%, transparent);
+      backdrop-filter: blur(var(--blur-backdrop));
+      -webkit-backdrop-filter: blur(var(--blur-backdrop));
+      border-bottom: 1px solid var(--border-hairline);
+      display: none;
+    }
+    .links[data-open] { display: flex; }
+  }
+</style>

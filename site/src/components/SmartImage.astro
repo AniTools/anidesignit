@@ -1,0 +1,84 @@
+---
+/* Project covers and gallery shots are mostly remote (Firebase Storage,
+   Cloudinary) and run 3.6-10MB, so they go through Astro's build-time pipeline
+   and come out as right-sized WebP srcsets.
+
+   Two things have to be handled or the build dies:
+
+   1. A host can be slow, rate-limiting, or hold a stale URL. An image that
+      cannot be optimised is not a reason to fail a deploy, so that falls back
+      to the original URL and logs which image it skipped.
+
+   2. sharp refuses images over ~268 megapixels, and WebP caps a dimension at
+      16383. Full-page screenshots blow past both. Those are detected here and
+      passed through untouched rather than thrown at the pipeline — the failure
+      would otherwise happen during image generation, long after this component
+      has returned, where it cannot be caught. Pre-shrink such files instead. */
+import { getImage } from 'astro:assets';
+import { inferRemoteSize } from 'astro/assets/utils';
+
+const SHARP_PIXEL_LIMIT = 268402689; // 16383^2
+const WEBP_MAX_DIMENSION = 16383;
+
+interface Props {
+  src: string;
+  alt: string;
+  widths?: number[];
+  sizes?: string;
+  loading?: 'eager' | 'lazy';
+  fetchpriority?: 'high' | 'low' | 'auto';
+  class?: string;
+  [key: string]: any;
+}
+
+const {
+  src,
+  alt,
+  widths = [480, 800, 1200],
+  sizes,
+  loading = 'lazy',
+  fetchpriority,
+  class: className,
+  ...rest
+} = Astro.props;
+
+let optimised: Awaited<ReturnType<typeof getImage>> | null = null;
+
+/* Root-relative paths are files in public/ — already served as-is by Astro,
+   and not something the asset pipeline can process. */
+const isPublicAsset = src?.startsWith('/');
+
+if (src && !isPublicAsset) {
+  try {
+    const { width, height } = await inferRemoteSize(src);
+    if (width * height > SHARP_PIXEL_LIMIT || height > WEBP_MAX_DIMENSION || width > WEBP_MAX_DIMENSION) {
+      console.warn(
+        `[SmartImage] ${src.split('/').pop()?.slice(0, 40)} is ${width}x${height} — ` +
+        `beyond what sharp can process. Serving as-is; shrink the source.`
+      );
+    } else {
+      /* Reuse the probed dimensions rather than `inferSize`, so this costs the
+         same one request the pipeline would have made anyway. */
+      optimised = await getImage({ src, width, height, widths, sizes, format: 'webp' });
+    }
+  } catch (err) {
+    console.warn(
+      `[SmartImage] serving ${src} unoptimised — ${(err as Error)?.message ?? err}`
+    );
+  }
+}
+---
+
+<img
+  src={optimised?.src ?? src}
+  srcset={optimised?.srcSet.attribute || undefined}
+  sizes={sizes}
+  width={optimised?.attributes.width}
+  height={optimised?.attributes.height}
+  alt={alt}
+  class={className}
+  loading={loading}
+  fetchpriority={fetchpriority}
+  decoding="async"
+  {...rest}
+/>
