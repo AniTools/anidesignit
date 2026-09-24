@@ -248,12 +248,14 @@ const toolsLine = (tools: string[]) => tools.slice(0, 4).join(' · ');
             }
             {
               copy.funFactHeading && (
-                <div class="fun-fact">
-                  <span class="fun-fact-heading">{copy.funFactHeading}</span>
-                  <p class="fun-fact-body">{copy.funFactBody}</p>
-                </div>
+                <p class="muted">
+                  {copy.funFactHeading} {copy.funFactBody}
+                </p>
               )
             }
+            <Button variant="outline" data-goto="4" class="together-btn">
+              Let's work together
+            </Button>
           </div>
         </div>
       </section>
@@ -611,6 +613,7 @@ const toolsLine = (tools: string[]) => tools.slice(0, 4).join(' · ');
   .hero-cols { grid-template-columns: 1.05fr 0.95fr; }
   .work-cols { grid-template-columns: 1fr 1.05fr; align-items: stretch; min-height: 0; flex: 1; }
   .about-cols { grid-template-columns: 0.85fr 1.15fr; gap: var(--space-16); align-items: flex-start; }
+  .about-cols .portrait-slot { margin-top: 64px; }
   .contact-cols { grid-template-columns: 1fr 1.1fr; gap: var(--space-16); }
   .form-cols { grid-template-columns: 1fr 1fr; gap: var(--space-5); }
 
@@ -953,27 +956,7 @@ const toolsLine = (tools: string[]) => tools.slice(0, 4).join(' · ');
   .client-logo:hover { filter: none; opacity: 1; }
   .client-logo :global(img) { height: 100%; width: auto; }
 
-  .fun-fact {
-    background: var(--surface-card);
-    border-radius: var(--radius-lg);
-    padding: var(--space-5);
-    box-shadow: var(--shadow-xs);
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-  }
-  .fun-fact-heading {
-    font-family: var(--font-title);
-    font-weight: 700;
-    font-size: var(--text-h4);
-    color: var(--text-title);
-  }
-  .fun-fact-body {
-    font-size: var(--text-body-md);
-    line-height: var(--leading-body);
-    color: var(--text-body);
-    margin: 0;
-  }
+  .together-btn { margin-top: var(--space-2); }
 
   /* ── Contact ───────────────────────────────────────────────────────── */
   .contact-details {
