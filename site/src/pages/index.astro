@@ -831,7 +831,10 @@ const toolsLine = (tools: string[]) => tools.slice(0, 4).join(' · ');
   /* The shared SectionHeading subtitle defaults to coral italic, which read as
      too loud stacked right under the "Services" title. Dial this one instance
      back to ink, matching the hero's lede treatment. */
-  :global(.services-heading .subtitle) { color: var(--text-title); }
+  :global(.services-heading .subtitle) {
+    color: var(--text-title);
+    font-size: var(--text-body-lg);
+  }
   .grid3 {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
