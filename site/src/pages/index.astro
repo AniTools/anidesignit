@@ -236,7 +236,15 @@ const toolsLine = (tools: string[]) => tools.slice(0, 4).join(' · ');
             </div>
             <div class="contact-details">
               <div class="details-text">
-                <a href={`mailto:${copy.email}`} class="strong">{copy.email}</a>
+                <a
+                  href="#"
+                  class="strong"
+                  data-email-link
+                  data-user={copy.email.split('@')[0]}
+                  data-host={copy.email.split('@')[1]}
+                >
+                  {copy.email.split('@')[0]}<span aria-hidden="true"> [at] </span>{copy.email.split('@')[1]}
+                </a>
                 {copy.phone && <span>{copy.phone}</span>}
                 <span>{copy.location}</span>
               </div>
@@ -301,6 +309,22 @@ const toolsLine = (tools: string[]) => tools.slice(0, 4).join(' · ');
 </Base>
 
 <script>
+  /* ── Email de-obfuscation ─────────────────────────────────────────────────
+     The address is split across two data attributes and the visible text
+     reads "user [at] host" in the static HTML — no literal "user@host" string
+     exists anywhere in the page source, which is what simple scraping bots
+     regex-match on. This restores the real mailto: link and text for actual
+     visitors, whose browsers run this script. (A bot that fully renders JS
+     could still find it — nothing keeps a public email fully hidden from
+     that class of scraper, only from the far more common dumb ones.) */
+  document.querySelectorAll<HTMLAnchorElement>('[data-email-link]').forEach((el) => {
+    const user = el.dataset.user;
+    const host = el.dataset.host;
+    if (!user || !host) return;
+    el.href = `mailto:${user}@${host}`;
+    el.textContent = `${user}@${host}`;
+  });
+
   /* ── Horizontal section navigation ───────────────────────────────────────
      Desktop moves a 500vw track; under 768px the CSS stacks the sections and
      this whole controller stands down in favour of native scrolling. */
@@ -480,10 +504,9 @@ const toolsLine = (tools: string[]) => tools.slice(0, 4).join(' · ');
       form.reset();
       setStatus(true, 'Thank you — I’ll be in touch soon.');
     } catch {
-      setStatus(
-        false,
-        'That didn’t send. Please email hello@anidesignit.com instead.'
-      );
+      const link = document.querySelector<HTMLAnchorElement>('[data-email-link]');
+      const fallback = link ? `${link.dataset.user}@${link.dataset.host}` : 'the form above';
+      setStatus(false, `That didn’t send. Please email ${fallback} instead.`);
     } finally {
       if (submit) submit.disabled = false;
     }
