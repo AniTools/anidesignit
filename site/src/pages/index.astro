@@ -61,8 +61,7 @@ const toolsLine = (tools: string[]) => tools.slice(0, 4).join(' · ');
           <div class="stack reveal">
             <div class="eyebrow">{copy.role}</div>
             <h1 class="hero-title">{copy.name}</h1>
-            <p class="lede" set:html={boldify(copy.heroSubtitle)} />
-            <p class="muted" set:html={boldify(copy.heroBody)} />
+            <p class="lede" set:html={`${boldify(copy.heroSubtitle)} ${boldify(copy.heroBody)}`} />
             <div class="row">
               <Button variant="primary" icon="arrow-right" data-goto="1">Explore My Work</Button>
               <Button variant="outline" href={copy.booking}>Book a call</Button>
@@ -614,26 +613,18 @@ const toolsLine = (tools: string[]) => tools.slice(0, 4).join(' · ');
     color: var(--text-title);
     margin: 0;
   }
+  /* Both hero lines merged into one paragraph, one consistent font — the
+     bold words (see boldify) carry the emphasis that used to come from
+     mixing an italic line with a separate grey one. */
   .lede {
-    font-weight: 600;
-    font-style: italic;
+    font-weight: 400;
     font-size: var(--text-body-lg);
     line-height: var(--leading-body);
-    color: var(--text-title);
+    color: var(--text-body);
     margin: 0;
     max-width: 46ch;
   }
-  .lede :global(strong) { font-weight: 700; }
-  .muted {
-    font-size: var(--text-body-lg);
-    line-height: var(--leading-body);
-    color: var(--text-muted);
-    margin: 0;
-    /* Matches .lede's width so both lines wrap into the same column instead of
-       the paragraph running wider than the line above it. */
-    max-width: 46ch;
-  }
-  .muted :global(strong) { font-weight: 700; color: var(--text-title); }
+  .lede :global(strong) { font-weight: 700; color: var(--text-title); }
   .body {
     font-size: var(--text-body-md);
     line-height: var(--leading-body);
@@ -1000,7 +991,7 @@ const toolsLine = (tools: string[]) => tools.slice(0, 4).join(' · ');
     /* Centre the editorial columns, but keep form fields left-aligned. */
     .stack { align-items: center; text-align: center; }
     .stack .row { justify-content: center; }
-    .lede, .muted, .body { margin-left: auto; margin-right: auto; }
+    .lede, .body { margin-left: auto; margin-right: auto; }
     .contact-details { justify-content: center; }
     .details-text { align-items: center; }
     .form-slot, .contact-form { align-items: stretch; text-align: left; }
