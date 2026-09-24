@@ -5,10 +5,11 @@ interface Props {
   label: string;
   name: string;
   type?: string;
-  as?: 'input' | 'textarea';
+  as?: 'input' | 'textarea' | 'select';
   placeholder?: string;
   required?: boolean;
   rows?: number;
+  options?: string[];
   class?: string;
 }
 const {
@@ -19,6 +20,7 @@ const {
   placeholder,
   required = false,
   rows = 4,
+  options = [],
   class: className,
 } = Astro.props;
 ---
@@ -28,6 +30,15 @@ const {
   {
     as === 'textarea' ? (
       <textarea name={name} placeholder={placeholder} required={required} rows={rows} />
+    ) : as === 'select' ? (
+      <select name={name} required={required}>
+        <option value="" disabled selected>
+          {placeholder}
+        </option>
+        {options.map((opt) => (
+          <option value={opt}>{opt}</option>
+        ))}
+      </select>
     ) : (
       <input name={name} type={type} placeholder={placeholder} required={required} />
     )
@@ -48,7 +59,8 @@ const {
   }
   .req { color: var(--coral-500); }
   input,
-  textarea {
+  textarea,
+  select {
     width: 100%;
     font-family: var(--font-sans);
     font-size: var(--text-body-md);
@@ -62,8 +74,13 @@ const {
     transition: box-shadow var(--duration-fast) var(--ease-out);
   }
   textarea { line-height: var(--leading-body); resize: vertical; }
+  select { appearance: none; }
+  /* Unselected state (the disabled placeholder option) reads muted, like a
+     placeholder; picking a real option turns it full ink. */
+  select:has(option:checked[value=""]) { color: var(--ink-400); }
   input:focus,
-  textarea:focus { box-shadow: var(--ring-focus); }
+  textarea:focus,
+  select:focus { box-shadow: var(--ring-focus); }
   input:user-invalid,
   textarea:user-invalid { box-shadow: inset 0 0 0 1px var(--status-error); }
 </style>

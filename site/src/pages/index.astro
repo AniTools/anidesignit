@@ -261,6 +261,21 @@ const toolsLine = (tools: string[]) => tools.slice(0, 4).join(' · ');
                 <Field label="Name" name="name" placeholder="Your name" required />
                 <Field label="Email" name="email" type="email" placeholder="you@example.com" required />
               </div>
+              <div class="cols form-cols">
+                <Field
+                  label="Phone"
+                  name="phone"
+                  type="tel"
+                  placeholder="(604) 555-0100"
+                />
+                <Field
+                  as="select"
+                  label="What's this about?"
+                  name="subject"
+                  placeholder="Choose one"
+                  options={['Website', 'Branding', 'UI/UX Design', 'Web Development', 'Animation', 'Other']}
+                />
+              </div>
               <Field
                 as="textarea"
                 label="Message"
