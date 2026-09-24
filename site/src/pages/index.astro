@@ -237,7 +237,7 @@ const toolsLine = (tools: string[]) => tools.slice(0, 4).join(' · ');
             <div class="contact-details">
               <div class="details-text">
                 <a href={`mailto:${copy.email}`} class="strong">{copy.email}</a>
-                <span>{copy.phone}</span>
+                {copy.phone && <span>{copy.phone}</span>}
                 <span>{copy.location}</span>
               </div>
               <Lottie src={copy.lottieContact} class="lottie-contact" />

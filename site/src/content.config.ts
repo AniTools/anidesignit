@@ -58,7 +58,7 @@ const site = defineCollection({
     contactHeading: z.string(),
     contactBody: z.string(),
     email: z.string(),
-    phone: z.string(),
+    phone: z.string().optional(),
     location: z.string(),
     booking: z.string(),
     social: z.array(z.object({ label: z.string(), icon: z.string(), href: z.string() })).default([]),
