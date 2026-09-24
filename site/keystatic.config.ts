@@ -108,6 +108,19 @@ export default config({
           description: 'The closing takeaway callout. Leave empty to hide it.',
           multiline: true,
         }),
+        passwordProtected: fields.checkbox({
+          label: 'Password protect this case study',
+          description:
+            'Hides the case study body behind a password prompt (client-side only — ' +
+            'a deterrent for casual visitors, not real security, since this is a static ' +
+            'site with no server to enforce it). The project still shows normally as a ' +
+            'card in My Work.',
+          defaultValue: false,
+        }),
+        password: fields.text({
+          label: 'Password',
+          description: 'Only the hash of this is ever shipped to the browser, never the plain text.',
+        }),
         /* The body of the case study. Each top-level heading becomes one of the
            numbered coral chapters on the page — the numbering is automatic, so
            write “The Problem”, not “01 The Problem”. */

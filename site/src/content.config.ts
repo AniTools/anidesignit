@@ -25,6 +25,8 @@ const projects = defineCollection({
     liveUrl: z.string().optional(),
     links: z.array(z.object({ label: z.string(), href: z.string() })).default([]),
     keyLesson: z.string().default(''),
+    passwordProtected: z.boolean().default(false),
+    password: z.string().optional(),
     testimonial: z
       .object({ quote: z.string().default(''), author: z.string().default('') })
       .default({ quote: '', author: '' }),

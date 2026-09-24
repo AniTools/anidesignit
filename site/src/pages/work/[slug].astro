@@ -1,5 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content';
+import crypto from 'node:crypto';
 import SmartImage from '../../components/SmartImage.astro';
 import Base from '../../layouts/Base.astro';
 import Button from '../../components/Button.astro';
@@ -29,6 +30,14 @@ const counter = `${String(index + 1).padStart(2, '0')} / ${String(total).padStar
    so there is no separate gallery block. The `gallery` field stays in the CMS
    schema as an escape hatch but is not rendered. */
 const hasQuote = Boolean(p.testimonial.quote);
+/* Only the hash ever reaches the browser — the plain-text password stays on
+   the server at build time. This is a casual gate, not real security: the
+   page is fully static, so the underlying HTML is technically present
+   either way. It just keeps the content from being stumbled into. */
+const passwordHash =
+  p.passwordProtected && p.password
+    ? crypto.createHash('sha256').update(p.password).digest('hex')
+    : '';
 ---
 
 <Base
@@ -55,19 +64,46 @@ const hasQuote = Boolean(p.testimonial.quote);
       </div>
     </section>
 
-    <div class="pad hero-wrap">
-      <div class="hero">
-        <SmartImage
-          src={p.heroImage}
-          alt={p.name}
-          widths={[640, 1024, 1440, 1920]}
-          sizes="(max-width: 768px) 100vw, min(1240px, 100vw)"
-          loading="eager"
-          fetchpriority="high"
-        />
-      </div>
-    </div>
+    {
+      p.heroImage && (
+        <div class="pad hero-wrap">
+          <div class="hero">
+            <SmartImage
+              src={p.heroImage}
+              alt={p.name}
+              widths={[640, 1024, 1440, 1920]}
+              sizes="(max-width: 768px) 100vw, min(1240px, 100vw)"
+              loading="eager"
+              fetchpriority="high"
+            />
+          </div>
+        </div>
+      )
+    }
 
+    {
+      p.passwordProtected && (
+        <div class="gate pad" data-gate data-hash={passwordHash}>
+          <div class="gate-card">
+            <Icon name="lock" size={28} />
+            <p class="gate-text">
+              This case study is under a client agreement — enter the password to view it.
+            </p>
+            <form data-gate-form class="gate-form">
+              <input type="password" name="password" placeholder="Password" required />
+              <Button type="submit" variant="primary">
+                Unlock
+              </Button>
+            </form>
+            <p class="gate-error" data-gate-error hidden>
+              That password isn't right — try again.
+            </p>
+          </div>
+        </div>
+      )
+    }
+
+    <div data-gate-target hidden={p.passwordProtected || undefined}>
     <div class="body pad">
       <aside class="rail">
         <div class="railgrid">
@@ -158,6 +194,7 @@ const hasQuote = Boolean(p.testimonial.quote);
         </a>
       </div>
     </nav>
+    </div>
   </div>
 
   {
@@ -200,6 +237,50 @@ const hasQuote = Boolean(p.testimonial.quote);
     root.addEventListener('click', close);
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && !root.hidden) close();
+    });
+  }
+</script>
+
+<script>
+  /* Password gate: the page is fully static, so this only ever hides/reveals
+     content that already shipped in the HTML — a deterrent for a casual
+     visitor, not a real access control. Only a SHA-256 hash of the password
+     reaches the browser (computed server-side at build time), never the
+     plain text, so at minimum the password itself isn't sitting in view-source. */
+  const gate = document.querySelector<HTMLElement>('[data-gate]');
+  const target = document.querySelector<HTMLElement>('[data-gate-target]');
+
+  if (gate && target) {
+    const storageKey = `unlocked:${location.pathname}`;
+    const expectedHash = gate.dataset.hash!;
+
+    const sha256Hex = async (text: string) => {
+      const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+      return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, '0')).join('');
+    };
+
+    const unlock = () => {
+      gate.hidden = true;
+      target.hidden = false;
+      sessionStorage.setItem(storageKey, '1');
+    };
+
+    if (sessionStorage.getItem(storageKey) === '1') unlock();
+
+    const form = gate.querySelector<HTMLFormElement>('[data-gate-form]');
+    const error = gate.querySelector<HTMLElement>('[data-gate-error]');
+
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const input = form.querySelector<HTMLInputElement>('input[name="password"]')!;
+      const attempt = await sha256Hex(input.value);
+      if (attempt === expectedHash) {
+        unlock();
+      } else if (error) {
+        error.hidden = false;
+        input.value = '';
+        input.focus();
+      }
     });
   }
 </script>
@@ -442,6 +523,39 @@ const hasQuote = Boolean(p.testimonial.quote);
     color: var(--text-muted);
     max-width: var(--measure-prose);
   }
+
+  /* ── Password gate ────────────────────────────────────────────────── */
+  .gate { display: flex; justify-content: center; padding-top: var(--space-10); padding-bottom: var(--space-10); }
+  .gate-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+    text-align: center;
+    max-width: 40ch;
+    background: var(--surface-card);
+    border-radius: var(--radius-lg);
+    padding: var(--space-8);
+    box-shadow: var(--shadow-sm);
+    color: var(--coral-500);
+  }
+  .gate-text { color: var(--text-body); font-size: var(--text-body-md); line-height: var(--leading-body); margin: 0; }
+  .gate-form { display: flex; gap: var(--space-3); width: 100%; }
+  .gate-form input {
+    flex: 1;
+    min-width: 0;
+    font-family: var(--font-sans);
+    font-size: var(--text-body-md);
+    color: var(--ink-700);
+    background: var(--surface-page);
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 12px 14px;
+    outline: none;
+    box-shadow: var(--shadow-inset-hairline);
+  }
+  .gate-form input:focus { box-shadow: var(--ring-focus); }
+  .gate-error { color: var(--status-error); font-size: var(--text-body-sm); margin: 0; }
 
   /* ── Key lesson callout ─────────────────────────────────────────────── */
   .lesson {
