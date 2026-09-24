@@ -53,6 +53,12 @@ const site = defineCollection({
     aboutBody: z.array(z.string()).default([]),
     aboutTools: z.array(z.string()).default([]),
     portrait: z.string(),
+    resume: z.string().optional(),
+    clients: z
+      .array(z.object({ name: z.string(), logo: imageRef, href: z.string().optional() }))
+      .default([]),
+    funFactHeading: z.string().default(''),
+    funFactBody: z.string().default(''),
     servicesEyebrow: z.string(),
     servicesSubtitle: z.string(),
     contactHeading: z.string(),

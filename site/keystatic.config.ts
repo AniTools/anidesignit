@@ -177,6 +177,30 @@ export default config({
           itemLabel: (props) => props.value,
         }),
         portrait: fields.url({ label: 'Portrait image URL' }),
+        resume: fields.file({
+          label: 'Resume (PDF)',
+          description: 'Shown as a download button in About Me. Leave empty to hide it.',
+          directory: 'public/files',
+          publicPath: '/files/',
+          validation: { isRequired: false },
+        }),
+        clients: fields.array(
+          fields.object({
+            name: fields.text({ label: 'Name', validation: { isRequired: true } }),
+            logo: imageField('Logo'),
+            href: fields.url({ label: 'Link', validation: { isRequired: false } }),
+          }),
+          {
+            label: "Clients & brands you've worked with",
+            description: 'The logo row in About Me. Leave empty to hide the whole section.',
+            itemLabel: (props) => props.fields.name.value || 'Client',
+          }
+        ),
+        funFactHeading: fields.text({
+          label: 'Fun fact heading',
+          description: 'e.g. "When I\'m not designing?" Leave empty to hide this callout.',
+        }),
+        funFactBody: fields.text({ label: 'Fun fact body', multiline: true }),
 
         servicesEyebrow: fields.text({ label: 'Services eyebrow' }),
         servicesSubtitle: fields.text({ label: 'Services subtitle' }),

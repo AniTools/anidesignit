@@ -4,10 +4,11 @@
   "heroSubtitle": "From concept to launch, I bring **design and development** together through an end-to-end creative process.",
   "heroBody": "I design and build **digital products, brands, and web experiences** for entrepreneurs, startups, and growing businesses.",
   "aboutHeading": "Meet Ana Maria",
-  "aboutSubtitle": "Where code meets creativity.",
+  "aboutSubtitle": "Where design meets technology.",
   "aboutBody": [
-    "I'm a multidisciplinary designer in Vancouver working across product UI/UX, visual design, branding, motion, and front-end development. I care about how a product feels as much as how it works \u2014 calm layouts, warm color, and small moments of motion that make an interface feel alive.",
-    "When I'm not in Figma, I'm animating in After Effects and Lottie, or turning designs into real websites with Astro and Webflow."
+    "I'm a Digital Designer based in Vancouver with over 7 years of experience creating digital products, brands, and websites from concept to launch. My background combines UX/UI, product design, visual design, branding, and front-end development, allowing me to work across the full digital design process.",
+    "I care about more than how something looks. I think about the people using it, how the experience works, and how the design will actually be built. My background in Journalism also brings a storytelling perspective to my work, helping me understand audiences and communicate ideas clearly.",
+    "I'm also exploring new ways of building with AI, combining tools like Claude Code and Figma Make with my design and front-end skills to prototype faster and turn ideas into functional digital experiences."
   ],
   "aboutTools": [
     "Figma",
@@ -45,5 +46,7 @@
   ],
   "lottieHero": "https://lottie.host/08cb3a32-e4c4-40f8-854b-851d2988fff8/66Mw3tUnLk.lottie",
   "lottieAbout": "https://lottie.host/e9bb1186-c7f4-4181-8a73-bdff02f8440c/WCRkGPlthD.lottie",
-  "lottieContact": "https://lottie.host/f0502aa7-ce50-45d1-9a35-31ec6d37a66a/HtfqISa9LC.lottie"
+  "lottieContact": "https://lottie.host/f0502aa7-ce50-45d1-9a35-31ec6d37a66a/HtfqISa9LC.lottie",
+  "funFactHeading": "When I'm not designing?",
+  "funFactBody": "You'll probably find me making music, writing songs, or playing piano and guitar \u2014 bringing ideas to life in a completely different way. \ud83c\udfb5"
 }

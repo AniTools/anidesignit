@@ -222,6 +222,41 @@ const toolsLine = (tools: string[]) => tools.slice(0, 4).join(' · ');
             <div class="chips">
               {copy.aboutTools.map((t) => <span class="chip">{t}</span>)}
             </div>
+            {
+              copy.resume && (
+                <Button variant="outline" icon="download" href={copy.resume} class="resume-btn">
+                  Download resume
+                </Button>
+              )
+            }
+            {
+              copy.clients.length > 0 && (
+                <div class="clients">
+                  <span class="clients-label">Some brands & teams I've worked with</span>
+                  <div class="clients-row">
+                    {copy.clients.map((c) =>
+                      c.href ? (
+                        <a href={c.href} target="_blank" rel="noreferrer" class="client-logo">
+                          <SmartImage src={c.logo} alt={c.name} widths={[160, 320]} sizes="140px" />
+                        </a>
+                      ) : (
+                        <span class="client-logo">
+                          <SmartImage src={c.logo} alt={c.name} widths={[160, 320]} sizes="140px" />
+                        </span>
+                      )
+                    )}
+                  </div>
+                </div>
+              )
+            }
+            {
+              copy.funFactHeading && (
+                <div class="fun-fact">
+                  <span class="fun-fact-heading">{copy.funFactHeading}</span>
+                  <p class="fun-fact-body">{copy.funFactBody}</p>
+                </div>
+              )
+            }
           </div>
         </div>
       </section>
@@ -891,6 +926,57 @@ const toolsLine = (tools: string[]) => tools.slice(0, 4).join(' · ');
   }
   .chip:hover { box-shadow: var(--shadow-sm); transform: translateY(-2px); }
   :global(.flush) { margin-bottom: 0 !important; }
+
+  .resume-btn { align-self: flex-start; }
+
+  .clients {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--border-hairline);
+  }
+  .clients-label {
+    font-size: var(--text-label);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    color: var(--ink-500);
+  }
+  .clients-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-6); }
+  .client-logo {
+    display: block;
+    height: 32px;
+    filter: grayscale(1);
+    opacity: 0.6;
+    transition:
+      filter var(--duration-fast) var(--ease-out),
+      opacity var(--duration-fast) var(--ease-out);
+  }
+  .client-logo:hover { filter: none; opacity: 1; }
+  .client-logo :global(img) { height: 100%; width: auto; }
+
+  .fun-fact {
+    background: var(--surface-card);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+    box-shadow: var(--shadow-xs);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .fun-fact-heading {
+    font-family: var(--font-title);
+    font-weight: 700;
+    font-size: var(--text-h4);
+    color: var(--text-title);
+  }
+  .fun-fact-body {
+    font-size: var(--text-body-md);
+    line-height: var(--leading-body);
+    color: var(--text-body);
+    margin: 0;
+  }
 
   /* ── Contact ───────────────────────────────────────────────────────── */
   .contact-details {
