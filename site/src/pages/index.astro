@@ -211,7 +211,7 @@ const toolsLine = (tools: string[]) => tools.slice(0, 4).join(' · ');
               sizes="(max-width: 768px) 52vw, 240px"
             />
           </div>
-          <div class="stack reveal">
+          <div class="stack reveal about-stack">
             <SectionHeading
               eyebrow="About"
               title={copy.aboutHeading}
@@ -613,7 +613,8 @@ const toolsLine = (tools: string[]) => tools.slice(0, 4).join(' · ');
   .hero-cols { grid-template-columns: 1.05fr 0.95fr; }
   .work-cols { grid-template-columns: 1fr 1.05fr; align-items: stretch; min-height: 0; flex: 1; }
   .about-cols { grid-template-columns: 0.85fr 1.15fr; gap: var(--space-16); align-items: flex-start; }
-  .about-cols .portrait-slot { margin-top: 64px; }
+  .about-cols .portrait-slot { margin-top: 120px; }
+  .about-stack { gap: var(--space-3); }
   .contact-cols { grid-template-columns: 1fr 1.1fr; gap: var(--space-16); }
   .form-cols { grid-template-columns: 1fr 1fr; gap: var(--space-5); }
 

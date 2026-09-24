@@ -6,10 +6,9 @@
   "aboutHeading": "Meet Ana Maria",
   "aboutSubtitle": "A designer with a musician's soul.",
   "aboutBody": [
-    "I'm a multidisciplinary designer with the soul of a musician and the heart of an artist. Originally from Colombia, where my artistic roots were nurtured, I'm now based in Vancouver, Canada. I hold a bachelor's degree in Social Communication and Journalism, a diploma in Digital Design, and have spent countless years immersed in music production and songwriting.",
-    "I'm a Digital Designer with over 7 years of experience creating digital products, brands, and websites from concept to launch. My background combines UX/UI, product design, visual design, branding, and front-end development, allowing me to work across the full digital design process.",
-    "I care about more than how something looks. I think about the people using it, how the experience works, and how the design will actually be built. My background in Journalism also brings a storytelling perspective to my work, helping me understand audiences and communicate ideas clearly.",
-    "I'm also exploring new ways of building with AI, combining tools like Claude Code and Figma Make with my design and front-end skills to prototype faster and turn ideas into functional digital experiences."
+    "I'm a multidisciplinary designer with the soul of a musician and the heart of an artist \u2014 originally from Colombia, now based in Vancouver. My background spans Journalism, Digital Design, and years of music production and songwriting.",
+    "With over 7 years of experience, I design and build digital products, brands, and websites from concept to launch \u2014 spanning UX/UI, product design, visual design, branding, and front-end development. I care about more than how something looks; my journalism background helps me understand people and tell that story clearly.",
+    "Lately I'm exploring new ways of building with AI, pairing tools like Claude Code and Figma Make with my design and front-end skills to prototype faster."
   ],
   "aboutTools": [
     "Figma",
@@ -49,5 +48,5 @@
   "lottieAbout": "https://lottie.host/e9bb1186-c7f4-4181-8a73-bdff02f8440c/WCRkGPlthD.lottie",
   "lottieContact": "https://lottie.host/f0502aa7-ce50-45d1-9a35-31ec6d37a66a/HtfqISa9LC.lottie",
   "funFactHeading": "When I'm not designing?",
-  "funFactBody": "You'll probably find me making music, writing songs, or playing piano and guitar \u2014 bringing ideas to life in a completely different way. \ud83c\udfb5"
+  "funFactBody": "You'll probably find me making music or playing piano and guitar. \ud83c\udfb5"
 }
