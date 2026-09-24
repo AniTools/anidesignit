@@ -49,28 +49,49 @@ subscription. Three areas:
 Keystatic writes plain JSON into `src/content/`. Save in the CMS, and the dev
 server reloads immediately. Deploying is what publishes the change.
 
-Images accept **either** an existing URL (the Firebase Storage and Cloudinary
-links already in use) **or** a direct upload, chosen per image. Uploads land in
-`public/images/projects/`.
+Images accept **either** an existing URL **or** a direct upload, chosen per
+image. All 30 case study images have been migrated off Firebase Storage to
+local uploads — the site has no remaining runtime dependency on Firebase.
+Uploads land in `public/images/projects/`.
+
+### Publishing your changes
+
+Keystatic runs in `local` mode — it edits files on this machine, so the CMS
+only exists while `npm run dev` is running. Editing in the CMS updates your
+local copy of the site instantly, but **does not touch the live site** until
+you publish.
+
+Publishing means committing and pushing to GitHub, which triggers Netlify to
+rebuild automatically. The easiest way:
+
+```bash
+./publish.sh                      # commits everything with today's date
+./publish.sh "Added new project"  # or write your own message
+```
+
+Run it from the project root after saving in Keystatic. It stages every
+change, commits, and pushes in one step — nothing to remember beyond running
+the script.
 
 ### Editing from any browser
 
-Keystatic currently runs in `local` mode — it edits the files on this machine,
-so the CMS only exists while `npm run dev` is running. To edit from anywhere
-after deploying, push this project to GitHub and change one line in
-`keystatic.config.ts`:
-
-```ts
-storage: { kind: 'github', repo: 'your-username/your-repo' }
-```
-
-Then follow Keystatic's GitHub App setup. Still free — edits become commits, and
-the commit triggers a rebuild.
+Right now the CMS only runs locally (`npm run dev` → `/keystatic`), so editing
+means: run the dev server on this machine, make changes, then `./publish.sh`.
+To edit from any browser without running anything locally, Keystatic would
+need to move to GitHub-backed storage (edits become commits directly from the
+browser) and the CMS would need to run on the live site rather than only in
+dev. That's a bigger, separate change — ask if you want it set up.
 
 ## Deploying
 
-`netlify.toml` is set up: base `site`, build `npm run build`, publish `dist`.
-Connect the repository in Netlify and it builds on every push.
+The repo (`github.com/AniTools/anidesignit`) is connected to Netlify
+(`anidesignit.netlify.app`) — every push to `main` triggers an automatic
+rebuild and deploy. `netlify.toml` sets the build: base `site`, command
+`npm run build`, publish `dist`.
+
+The live domain `anidesignit.com` is still pointed at the old Firebase-hosted
+site — this Netlify site is a staging/preview deploy until the domain is
+migrated over.
 
 The contact form uses **Netlify Forms** — no backend, no third-party service,
 100 submissions a month on the free plan. It only works once deployed to
