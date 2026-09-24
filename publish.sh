@@ -2,8 +2,8 @@
 # Publishes your latest changes (CMS edits, code, anything) to the live site.
 #
 # What it does:
-#   1. Finds this script's own folder, so it works no matter where you run it from
-#   2. Checks if there's anything new to publish
+#   1. Shows you exactly what changed — added, edited, and deleted files
+#   2. Asks you to confirm before doing anything
 #   3. Commits everything with a message (today's date by default, or your own)
 #   4. Pushes to GitHub, which tells Netlify to rebuild the live site
 #
@@ -21,6 +21,19 @@ fi
 echo "Changes found:"
 git status --short
 echo ""
+
+DELETED=$(git status --porcelain | grep -E '^( D|D )' | sed 's/^...//')
+if [ -n "$DELETED" ]; then
+  echo "⚠️  This will DELETE the following from the live site:"
+  echo "$DELETED" | sed 's/^/    /'
+  echo ""
+fi
+
+read -p "Publish these changes? [y/N] " CONFIRM
+if [ "$CONFIRM" != "y" ] && [ "$CONFIRM" != "Y" ]; then
+  echo "Cancelled — nothing was published."
+  exit 0
+fi
 
 MESSAGE="${1:-Update site content — $(date '+%Y-%m-%d %H:%M')}"
 
