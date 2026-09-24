@@ -620,7 +620,9 @@ const toolsLine = (tools: string[]) => tools.slice(0, 4).join(' · ');
     line-height: var(--leading-body);
     color: var(--text-muted);
     margin: 0;
-    max-width: var(--measure-prose);
+    /* Matches .lede's width so both lines wrap into the same column instead of
+       the paragraph running wider than the line above it. */
+    max-width: 34ch;
   }
   .body {
     font-size: var(--text-body-md);
