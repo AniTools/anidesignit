@@ -219,9 +219,6 @@ const toolsLine = (tools: string[]) => tools.slice(0, 4).join(' · ');
               class="flush"
             />
             {copy.aboutBody.map((para, i) => <p class={i === 0 ? 'body' : 'muted'}>{para}</p>)}
-            <div class="chips">
-              {copy.aboutTools.map((t) => <span class="chip">{t}</span>)}
-            </div>
             {
               copy.resume && (
                 <Button variant="outline" icon="download" href={copy.resume} class="resume-btn">
@@ -613,7 +610,7 @@ const toolsLine = (tools: string[]) => tools.slice(0, 4).join(' · ');
   .cols { display: grid; gap: var(--space-12); align-items: center; }
   .hero-cols { grid-template-columns: 1.05fr 0.95fr; }
   .work-cols { grid-template-columns: 1fr 1.05fr; align-items: stretch; min-height: 0; flex: 1; }
-  .about-cols { grid-template-columns: 0.85fr 1.15fr; gap: var(--space-16); }
+  .about-cols { grid-template-columns: 0.85fr 1.15fr; gap: var(--space-16); align-items: flex-start; }
   .contact-cols { grid-template-columns: 1fr 1.1fr; gap: var(--space-16); }
   .form-cols { grid-template-columns: 1fr 1fr; gap: var(--space-5); }
 
