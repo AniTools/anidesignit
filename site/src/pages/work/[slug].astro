@@ -144,15 +144,13 @@ const passwordHash =
           p.links.length > 0 && (
             <div class="extra-links">
               {p.links.map((l) => (
-                <a href={l.href} class="extra-link" target="_blank" rel="noreferrer">
-                  <span>{l.label}</span>
-                  <Icon name="arrow-right" size={14} />
-                </a>
+                <Button variant="outline" icon="arrow-right" href={l.href} target="_blank" rel="noreferrer">
+                  {l.label}
+                </Button>
               ))}
             </div>
           )
         }
-        <Button variant="outline" icon="calendar" href="/#contact">Start a project</Button>
       </aside>
 
       <main class="main">
@@ -628,16 +626,6 @@ const passwordHash =
 
   /* ── Sidebar extra links ────────────────────────────────────────────── */
   .extra-links { display: flex; flex-direction: column; gap: var(--space-3); }
-  .extra-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: var(--text-caption);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: var(--tracking-label);
-    border: none;
-  }
 
 
   .pull {
