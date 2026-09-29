@@ -37,10 +37,21 @@ const toolsLine = (tools: string[]) => tools.slice(0, 4).join(' · ');
 ---
 
 <Base
-  title={`${copy.name} — ${copy.role}`}
-  description={copy.heroSubtitle}
+  title={copy.seoTitle || `${copy.name} — ${copy.role}`}
+  description={copy.seoDescription || copy.heroSubtitle.replace(/\*\*/g, '')}
   image={projects[0]?.data.heroImage}
 >
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: copy.name.split(' ').map((w) => w[0] + w.slice(1).toLowerCase()).join(' '),
+    jobTitle: copy.role,
+    url: 'https://anidesignit.com',
+    image: copy.portrait || undefined,
+    address: { '@type': 'PostalAddress', addressLocality: 'Vancouver', addressRegion: 'BC', addressCountry: 'CA' },
+    email: copy.email || undefined,
+    sameAs: copy.social.map((s) => s.href),
+  })} />
   <div class="root">
     <div class="nav-fixed">
       <NavBar items={NAV} active="Home" hrefBase="/" />

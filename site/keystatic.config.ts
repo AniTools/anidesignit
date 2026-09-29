@@ -191,6 +191,19 @@ export default config({
         heroSubtitle: fields.text({ label: 'Hero subtitle', multiline: true }),
         heroBody: fields.text({ label: 'Hero body', multiline: true }),
 
+        seoTitle: fields.text({
+          label: 'SEO title',
+          description:
+            'What shows in the Google search result and browser tab. Keep it under ~60 characters.',
+        }),
+        seoDescription: fields.text({
+          label: 'SEO description',
+          multiline: true,
+          description:
+            'The snippet under your title in search results, and the preview text when the ' +
+            'homepage is shared on social. Aim for 150-160 characters, plain text (no ** bold).',
+        }),
+
         aboutHeading: fields.text({ label: 'About heading' }),
         aboutSubtitle: fields.text({ label: 'About subtitle' }),
         aboutBody: fields.array(fields.text({ label: 'Paragraph', multiline: true }), {

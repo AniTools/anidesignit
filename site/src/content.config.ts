@@ -51,6 +51,8 @@ const site = defineCollection({
     role: z.string(),
     heroSubtitle: z.string(),
     heroBody: z.string(),
+    seoTitle: z.string().default(''),
+    seoDescription: z.string().default(''),
     aboutHeading: z.string(),
     aboutSubtitle: z.string(),
     aboutBody: z.array(z.string()).default([]),
