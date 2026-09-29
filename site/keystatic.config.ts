@@ -108,6 +108,18 @@ export default config({
           description: 'The closing takeaway callout. Leave empty to hide it.',
           multiline: true,
         }),
+        stats: fields.array(
+          fields.object({
+            value: fields.text({ label: 'Number', description: 'e.g. "22+", "1,550+", "9M+"' }),
+            label: fields.text({ label: 'Label', description: 'e.g. "Factories launched"' }),
+          }),
+          {
+            label: 'Impact stats',
+            description:
+              'A quiet row of big numbers, usually near Results. Leave empty to hide it.',
+            itemLabel: (props) => `${props.fields.value.value} — ${props.fields.label.value}` || 'Stat',
+          }
+        ),
         passwordProtected: fields.checkbox({
           label: 'Password protect this case study',
           description:

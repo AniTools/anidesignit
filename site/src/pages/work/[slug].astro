@@ -163,6 +163,19 @@ const passwordHash =
         </div>
 
         {
+          p.stats.length > 0 && (
+            <div class="stats">
+              {p.stats.map((s) => (
+                <div class="stat">
+                  <span class="stat-value">{s.value}</span>
+                  <span class="stat-label">{s.label}</span>
+                </div>
+              ))}
+            </div>
+          )
+        }
+
+        {
           p.keyLesson && (
             <aside class="lesson">
               <span class="lesson-label">Key lesson</span>
@@ -557,6 +570,35 @@ const passwordHash =
   .gate-form input:focus { box-shadow: var(--ring-focus); }
   .gate-error { color: var(--status-error); font-size: var(--text-body-sm); margin: 0; }
 
+  /* ── Impact stats ─────────────────────────────────────────────────────
+     Deliberately quiet: no boxes, no color blocks — just large numbers and a
+     hairline divider between them, so it reads as typography rather than a
+     dashboard widget, matching the rest of the page's restraint. */
+  .stats {
+    margin-left: 96px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-8);
+    padding: var(--space-6) 0;
+    border-top: 1px solid var(--border-hairline);
+    border-bottom: 1px solid var(--border-hairline);
+  }
+  .stat { display: flex; flex-direction: column; gap: 4px; }
+  .stat-value {
+    font-family: var(--font-title);
+    font-weight: 700;
+    font-size: var(--text-h2);
+    color: var(--coral-500);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: var(--text-caption);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    color: var(--ink-500);
+  }
+
   /* ── Key lesson callout ─────────────────────────────────────────────── */
   .lesson {
     margin-left: 96px;
@@ -712,6 +754,7 @@ const passwordHash =
     .prose :global(ol),
     .prose :global(img),
     .prose :global(blockquote),
+    .stats,
     .lesson { margin-left: 0; }
     .prose :global(ul),
     .prose :global(ol) { padding-left: var(--space-5); }
