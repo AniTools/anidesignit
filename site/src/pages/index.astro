@@ -23,6 +23,7 @@ const escapeHtml = (s: string) =>
 const boldify = (s: string) =>
   escapeHtml(s).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
 const resumes = copy.resumes.filter((r): r is { label: string; file: string } => Boolean(r.file));
+const initials = (name: string) => name.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0].toUpperCase()).join('');
 const linkedinUrl = copy.social.find((l) => l.icon === 'linkedin')?.href;
 const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
 const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
@@ -285,7 +286,7 @@ const toolsLine = (tools: string[]) => tools.slice(0, 4).join(' · ');
               </Button>
               {
                 copy.testimonials.length > 0 && (
-                  <Button variant="ghost" icon="arrow-right" data-open-recs class="together-btn">
+                  <Button variant="ghost" icon="quote" iconPosition="left" data-open-recs class="rec-btn">
                     Testimonials
                   </Button>
                 )
@@ -298,7 +299,10 @@ const toolsLine = (tools: string[]) => tools.slice(0, 4).join(' · ');
           copy.testimonials.length > 0 && (
             <dialog class="recs" data-recs aria-labelledby="recs-title">
               <header class="recs-head">
-                <h2 id="recs-title">Testimonials</h2>
+                <div>
+                  <span class="recs-eyebrow">What people say</span>
+                  <h2 id="recs-title">Testimonials</h2>
+                </div>
                 <button type="button" class="recs-close" data-close-recs aria-label="Close">
                   <Icon name="x" size={20} />
                 </button>
@@ -306,10 +310,14 @@ const toolsLine = (tools: string[]) => tools.slice(0, 4).join(' · ');
               <div class="recs-list">
                 {copy.testimonials.map((t) => (
                   <figure class="rec">
-                    <blockquote>“{t.quote}”</blockquote>
+                    <span class="rec-mark" aria-hidden="true">“</span>
+                    <blockquote>{t.quote}</blockquote>
                     <figcaption>
-                      <strong>{t.name}</strong>
-                      {t.role && <span>{t.role}</span>}
+                      <span class="rec-avatar" aria-hidden="true">{initials(t.name)}</span>
+                      <span class="rec-who">
+                        <strong>{t.name}</strong>
+                        {t.role && <span>{t.role}</span>}
+                      </span>
                     </figcaption>
                   </figure>
                 ))}
@@ -317,12 +325,12 @@ const toolsLine = (tools: string[]) => tools.slice(0, 4).join(' · ');
               <footer class="recs-foot">
                 {linkedinUrl && (
                   <a href={linkedinUrl} target="_blank" rel="noreferrer">
-                    More recommendations on LinkedIn →
+                    More on LinkedIn <span aria-hidden="true">→</span>
                   </a>
                 )}
                 {copy.reviewsUrl && (
                   <a href={copy.reviewsUrl} target="_blank" rel="noreferrer">
-                    Read my reviews on Google →
+                    Reviews on Google <span aria-hidden="true">→</span>
                   </a>
                 )}
               </footer>
@@ -1065,33 +1073,96 @@ const toolsLine = (tools: string[]) => tools.slice(0, 4).join(' · ');
 
   .about-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); margin-top: var(--space-2); }
 
-  /* "Kind words" dialog — opened from the About section, so the section itself
-     stays one calm screen instead of fitting five quotes into it. */
+  /* the Button component's own scoped styles are more specific than a bare class */
+  :global(.ds-btn.is-ghost.rec-btn) {
+    background: var(--coral-200);
+    color: var(--coral-700);
+    font-weight: 600;
+  }
+  :global(.ds-btn.is-ghost.rec-btn:hover) { background: var(--coral-500); color: var(--text-on-accent); }
+
+  /* Testimonials dialog — opened from the About section so that section stays a
+     single calm screen. Warm blush header, white cards, a big coral quote mark. */
   .recs {
-    width: min(640px, calc(100vw - 32px));
-    max-height: min(80vh, 720px);
+    width: min(680px, calc(100vw - 32px));
+    max-height: min(84vh, 760px);
     padding: 0;
     border: none;
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-xl);
     background: var(--surface-page);
     color: var(--text-body);
     box-shadow: var(--shadow-lg);
     overflow: hidden;
   }
-  .recs[open] { display: flex; flex-direction: column; }
-  .recs::backdrop { background: rgba(30, 20, 20, 0.45); backdrop-filter: blur(4px); }
-  .recs-head { display: flex; align-items: center; justify-content: space-between; padding: var(--space-5) var(--space-6); border-bottom: 1px solid var(--border-hairline); }
-  .recs-head h2 { margin: 0; font-family: var(--font-title); font-size: var(--text-h3); color: var(--text-title); }
-  .recs-close { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: none; border-radius: var(--radius-pill); background: transparent; color: var(--ink-600); cursor: pointer; }
-  .recs-close:hover { background: var(--blush-100); }
-  .recs-list { overflow-y: auto; padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-6); }
-  .rec { margin: 0; padding-left: var(--space-4); border-left: 2px solid var(--coral-200); display: flex; flex-direction: column; gap: var(--space-2); }
-  .rec blockquote { margin: 0; font-size: var(--text-body-md); line-height: var(--leading-body); color: var(--text-body); }
-  .rec figcaption { display: flex; flex-direction: column; font-size: var(--text-caption); line-height: 1.4; }
-  .rec figcaption strong { color: var(--text-title); font-weight: 600; }
-  .rec figcaption span { color: var(--ink-500); }
-  .recs-foot { display: flex; flex-wrap: wrap; gap: var(--space-5); padding: var(--space-4) var(--space-6); border-top: 1px solid var(--border-hairline); font-size: var(--text-caption); font-weight: 600; }
-  .recs-foot a { color: var(--coral-500); }
+  .recs[open] { display: flex; flex-direction: column; animation: recs-in 260ms var(--ease-out); }
+  .recs[open]::backdrop { animation: recs-fade 260ms ease-out; }
+  .recs::backdrop { background: rgba(40, 24, 22, 0.5); backdrop-filter: blur(6px); }
+  @keyframes recs-in { from { opacity: 0; transform: translateY(14px) scale(0.98); } to { opacity: 1; transform: none; } }
+  @keyframes recs-fade { from { opacity: 0; } to { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .recs[open], .recs[open]::backdrop { animation: none; } }
+
+  .recs-head {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    padding: var(--space-8) var(--space-8) var(--space-6);
+    background: var(--blush-100);
+  }
+  .recs-eyebrow {
+    display: block; margin-bottom: var(--space-2);
+    font-size: var(--text-caption); font-weight: 600; text-transform: uppercase;
+    letter-spacing: var(--tracking-eyebrow); color: var(--coral-500);
+  }
+  .recs-head h2 { margin: 0; font-family: var(--font-title); font-weight: 700; font-size: var(--text-h2); line-height: 1.1; color: var(--text-title); }
+  .recs-close {
+    display: inline-flex; align-items: center; justify-content: center; flex: none;
+    width: 40px; height: 40px; border: none; border-radius: var(--radius-pill);
+    background: var(--white); color: var(--ink-700); cursor: pointer; box-shadow: var(--shadow-xs);
+    transition: transform var(--duration-fast) var(--ease-out);
+  }
+  .recs-close:hover { transform: scale(1.06); }
+
+  .recs-list { overflow-y: auto; padding: var(--space-6) var(--space-8); display: flex; flex-direction: column; gap: var(--space-5); }
+  .rec {
+    position: relative; margin: 0;
+    padding: var(--space-8) var(--space-6) var(--space-6);
+    background: var(--surface-card); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm);
+    display: flex; flex-direction: column; gap: var(--space-5);
+  }
+  .rec-mark {
+    position: absolute; top: 4px; left: var(--space-5);
+    font-family: var(--font-title); font-weight: 700; font-size: 72px; line-height: 1;
+    color: var(--coral-200); user-select: none;
+  }
+  .rec blockquote {
+    position: relative; margin: 0;
+    font-family: var(--font-title); font-size: var(--text-h4); line-height: 1.45; color: var(--text-title);
+  }
+  .rec figcaption { display: flex; align-items: center; gap: var(--space-3); }
+  .rec-avatar {
+    display: inline-flex; align-items: center; justify-content: center; flex: none;
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--coral-200); color: var(--coral-700);
+    font-size: var(--text-caption); font-weight: 700; letter-spacing: 0.04em;
+  }
+  .rec-who { display: flex; flex-direction: column; font-size: var(--text-caption); line-height: 1.4; }
+  .rec-who strong { color: var(--text-title); font-weight: 600; font-size: var(--text-body-sm); }
+  .rec-who span { color: var(--ink-500); }
+
+  @media (max-width: 520px) {
+    .recs-head { padding: var(--space-6) var(--space-5) var(--space-5); }
+    .recs-list { padding: var(--space-5); }
+    .recs-foot { padding: var(--space-4) var(--space-5) var(--space-5); }
+    .rec { padding: var(--space-8) var(--space-5) var(--space-5); }
+    .rec blockquote { font-size: var(--text-body-lg); }
+  }
+  .recs-foot { display: flex; flex-wrap: wrap; gap: var(--space-3); padding: var(--space-5) var(--space-8) var(--space-6); }
+  .recs-foot a {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 16px; border-radius: var(--radius-pill);
+    border: 1px solid var(--coral-500); color: var(--coral-500);
+    font-size: var(--text-caption); font-weight: 600;
+    transition: background var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out);
+  }
+  .recs-foot a:hover { background: var(--coral-500); color: var(--text-on-accent); }
 
   /* ── Contact ───────────────────────────────────────────────────────── */
   .contact-details {
