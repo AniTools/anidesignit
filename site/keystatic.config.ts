@@ -244,7 +244,7 @@ export default config({
           }),
           {
             label: 'Recommendations',
-            description: 'Short quotes shown under your photo in About Me. 2–3 fit best. Leave empty to hide.',
+            description: 'Saved quotes (not displayed on the site yet). Leave empty to hide.',
             itemLabel: (props) => props.fields.name.value || 'Recommendation',
           }
         ),
