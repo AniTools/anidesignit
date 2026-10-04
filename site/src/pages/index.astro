@@ -22,6 +22,7 @@ const escapeHtml = (s: string) =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const boldify = (s: string) =>
   escapeHtml(s).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+const resumes = copy.resumes.filter((r): r is { label: string; file: string } => Boolean(r.file));
 const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
 const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
 
@@ -240,10 +241,19 @@ const toolsLine = (tools: string[]) => tools.slice(0, 4).join(' · ');
             />
             {copy.aboutBody.map((para, i) => <p class={i === 0 ? 'body' : 'muted'}>{para}</p>)}
             {
-              copy.resume && (
-                <Button variant="outline" icon="download" href={copy.resume} class="resume-btn">
-                  Download resume
-                </Button>
+              (resumes.length > 0 || copy.reviewsUrl) && (
+                <div class="about-links">
+                  {resumes.map((r) => (
+                    <Button variant="outline" icon="download" href={r.file} download>
+                      Resume · {r.label}
+                    </Button>
+                  ))}
+                  {copy.reviewsUrl && (
+                    <Button variant="outline" icon="arrow-right" href={copy.reviewsUrl} target="_blank" rel="noreferrer">
+                      Read my reviews
+                    </Button>
+                  )}
+                </div>
               )
             }
             {
@@ -970,7 +980,7 @@ const toolsLine = (tools: string[]) => tools.slice(0, 4).join(' · ');
   .chip:hover { box-shadow: var(--shadow-sm); transform: translateY(-2px); }
   :global(.flush) { margin-bottom: 0 !important; }
 
-  .resume-btn { align-self: flex-start; }
+  .about-links { display: flex; flex-wrap: wrap; gap: var(--space-3); }
 
   .clients {
     display: flex;

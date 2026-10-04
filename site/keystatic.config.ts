@@ -215,11 +215,31 @@ export default config({
           itemLabel: (props) => props.value,
         }),
         portrait: fields.url({ label: 'Portrait image URL' }),
-        resume: fields.file({
-          label: 'Resume (PDF)',
-          description: 'Shown as a download button in About Me. Leave empty to hide it.',
-          directory: 'public/files',
-          publicPath: '/files/',
+        resumes: fields.array(
+          fields.object({
+            label: fields.text({
+              label: 'Label',
+              description: 'What the button says after "Resume", e.g. "Digital Designer".',
+              validation: { isRequired: true },
+            }),
+            file: fields.file({
+              label: 'PDF',
+              directory: 'public/files',
+              publicPath: '/files/',
+              validation: { isRequired: true },
+            }),
+          }),
+          {
+            label: 'Resumes',
+            description:
+              'One download button each in About Me — add a different resume per role. Leave empty to hide.',
+            itemLabel: (props) => props.fields.label.value || 'Resume',
+          }
+        ),
+        reviewsUrl: fields.url({
+          label: 'Reviews link',
+          description:
+            'Link to your Google Business Profile reviews (or LinkedIn recommendations). Shows a "Read my reviews" button in About Me. Leave empty to hide.',
           validation: { isRequired: false },
         }),
         clients: fields.array(
