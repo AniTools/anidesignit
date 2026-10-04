@@ -244,7 +244,7 @@ export default config({
           }),
           {
             label: 'Recommendations',
-            description: 'Saved quotes (not displayed on the site yet). Leave empty to hide.',
+            description: 'Quotes shown in the "What people say" window opened from About Me. Leave empty to hide the button.',
             itemLabel: (props) => props.fields.name.value || 'Recommendation',
           }
         ),

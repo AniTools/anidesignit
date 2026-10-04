@@ -23,6 +23,7 @@ const escapeHtml = (s: string) =>
 const boldify = (s: string) =>
   escapeHtml(s).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
 const resumes = copy.resumes.filter((r): r is { label: string; file: string } => Boolean(r.file));
+const linkedinUrl = copy.social.find((l) => l.icon === 'linkedin')?.href;
 const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
 const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
 
@@ -241,18 +242,13 @@ const toolsLine = (tools: string[]) => tools.slice(0, 4).join(' · ');
             />
             {copy.aboutBody.map((para, i) => <p class={i === 0 ? 'body' : 'muted'}>{para}</p>)}
             {
-              (resumes.length > 0 || copy.reviewsUrl) && (
+              resumes.length > 0 && (
                 <div class="about-links">
                   {resumes.map((r) => (
                     <Button variant="outline" icon="download" href={r.file} download>
                       Resume · {r.label}
                     </Button>
                   ))}
-                  {copy.reviewsUrl && (
-                    <Button variant="outline" icon="arrow-right" href={copy.reviewsUrl} target="_blank" rel="noreferrer">
-                      Read my reviews
-                    </Button>
-                  )}
                 </div>
               )
             }
@@ -283,11 +279,56 @@ const toolsLine = (tools: string[]) => tools.slice(0, 4).join(' · ');
                 </p>
               )
             }
-            <Button variant="outline" data-goto="4" class="together-btn">
-              Let's work together
-            </Button>
+            <div class="about-actions">
+              <Button variant="outline" data-goto="4" class="together-btn">
+                Let's work together
+              </Button>
+              {
+                copy.testimonials.length > 0 && (
+                  <Button variant="ghost" icon="arrow-right" data-open-recs class="together-btn">
+                    What people say
+                  </Button>
+                )
+              }
+            </div>
           </div>
         </div>
+
+        {
+          copy.testimonials.length > 0 && (
+            <dialog class="recs" data-recs aria-labelledby="recs-title">
+              <header class="recs-head">
+                <h2 id="recs-title">Kind words</h2>
+                <button type="button" class="recs-close" data-close-recs aria-label="Close">
+                  <Icon name="x" size={20} />
+                </button>
+              </header>
+              <div class="recs-list">
+                {copy.testimonials.map((t) => (
+                  <figure class="rec">
+                    <blockquote>“{t.quote}”</blockquote>
+                    <figcaption>
+                      <strong>{t.name}</strong>
+                      {t.role && <span>{t.role}</span>}
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+              <footer class="recs-foot">
+                {linkedinUrl && (
+                  <a href={linkedinUrl} target="_blank" rel="noreferrer">
+                    More recommendations on LinkedIn →
+                  </a>
+                )}
+                {copy.reviewsUrl && (
+                  <a href={copy.reviewsUrl} target="_blank" rel="noreferrer">
+                    Read my reviews on Google →
+                  </a>
+                )}
+              </footer>
+            </dialog>
+          )
+        }
       </section>
 
       <!-- ────────────────────────────  CONTACT  ─────────────────────────── -->
@@ -380,6 +421,19 @@ const toolsLine = (tools: string[]) => tools.slice(0, 4).join(' · ');
 </Base>
 
 <script>
+  /* ── "Kind words" dialog ──────────────────────────────────────────────── */
+  const recs = document.querySelector<HTMLDialogElement>('[data-recs]');
+  if (recs) {
+    document.querySelectorAll('[data-open-recs]').forEach((b) => b.addEventListener('click', () => recs.showModal()));
+    recs.querySelector('[data-close-recs]')?.addEventListener('click', () => recs.close());
+    // click on the backdrop (the dialog element itself, outside its content) closes it
+    recs.addEventListener('click', (e) => {
+      const r = recs.getBoundingClientRect();
+      const inside = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
+      if (!inside) recs.close();
+    });
+  }
+
   /* ── Email de-obfuscation ─────────────────────────────────────────────────
      The address is split across two data attributes and the visible text
      reads "user [at] host" in the static HTML — no literal "user@host" string
@@ -1009,7 +1063,35 @@ const toolsLine = (tools: string[]) => tools.slice(0, 4).join(' · ');
   .client-logo:hover { filter: none; opacity: 1; }
   .client-logo :global(img) { height: 100%; width: auto; }
 
-  .together-btn { margin-top: var(--space-2); }
+  .about-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); margin-top: var(--space-2); }
+
+  /* "Kind words" dialog — opened from the About section, so the section itself
+     stays one calm screen instead of fitting five quotes into it. */
+  .recs {
+    width: min(640px, calc(100vw - 32px));
+    max-height: min(80vh, 720px);
+    padding: 0;
+    border: none;
+    border-radius: var(--radius-lg);
+    background: var(--surface-page);
+    color: var(--text-body);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+  }
+  .recs[open] { display: flex; flex-direction: column; }
+  .recs::backdrop { background: rgba(30, 20, 20, 0.45); backdrop-filter: blur(4px); }
+  .recs-head { display: flex; align-items: center; justify-content: space-between; padding: var(--space-5) var(--space-6); border-bottom: 1px solid var(--border-hairline); }
+  .recs-head h2 { margin: 0; font-family: var(--font-title); font-size: var(--text-h3); color: var(--text-title); }
+  .recs-close { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: none; border-radius: var(--radius-pill); background: transparent; color: var(--ink-600); cursor: pointer; }
+  .recs-close:hover { background: var(--blush-100); }
+  .recs-list { overflow-y: auto; padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-6); }
+  .rec { margin: 0; padding-left: var(--space-4); border-left: 2px solid var(--coral-200); display: flex; flex-direction: column; gap: var(--space-2); }
+  .rec blockquote { margin: 0; font-size: var(--text-body-md); line-height: var(--leading-body); color: var(--text-body); }
+  .rec figcaption { display: flex; flex-direction: column; font-size: var(--text-caption); line-height: 1.4; }
+  .rec figcaption strong { color: var(--text-title); font-weight: 600; }
+  .rec figcaption span { color: var(--ink-500); }
+  .recs-foot { display: flex; flex-wrap: wrap; gap: var(--space-5); padding: var(--space-4) var(--space-6); border-top: 1px solid var(--border-hairline); font-size: var(--text-caption); font-weight: 600; }
+  .recs-foot a { color: var(--coral-500); }
 
   /* ── Contact ───────────────────────────────────────────────────────── */
   .contact-details {
