@@ -6,8 +6,8 @@
   "aboutHeading": "Meet Ana Maria",
   "aboutSubtitle": "A designer with a musician's soul.",
   "aboutBody": [
-    "I'm a multidisciplinary designer with the soul of a musician and the heart of an artist \u2014 originally from Colombia, now based in Vancouver. My background spans Journalism, Digital Design, and years of music production and songwriting.",
-    "With over 7 years of experience, I design and build digital products, brands, and websites from concept to launch \u2014 spanning UX/UI, product design, visual design, branding, and front-end development. I care about more than how something looks; my journalism background helps me understand people and tell that story clearly.",
+    "I'm a multidisciplinary designer with the soul of a musician and the heart of an artist — originally from Colombia, now based in Vancouver. My background spans Journalism, Digital Design, and years of music production and songwriting.",
+    "With over 7 years of experience, I design and build digital products, brands, and websites from concept to launch — spanning UX/UI, product design, visual design, branding, and front-end development. I care about more than how something looks; my journalism background helps me understand people and tell that story clearly.",
     "Lately I'm exploring new ways of building with AI, pairing tools like Claude Code and Figma Make with my design and front-end skills to prototype faster."
   ],
   "aboutTools": [
@@ -20,7 +20,7 @@
   ],
   "portrait": "https://res.cloudinary.com/dqbxkmkph/image/upload/v1759879976/ANaM_ynwj0v.png",
   "servicesEyebrow": "START YOUR DIGITAL DESIGN JOURNEY",
-  "servicesSubtitle": "From strategy and identity to a fully launched digital experience \u2014 I help you shape, design, and build your brand, website, or digital product from concept to launch.",
+  "servicesSubtitle": "From strategy and identity to a fully launched digital experience — I help you shape, design, and build your brand, website, or digital product from concept to launch.",
   "contactHeading": "Let's chat soon!",
   "contactBody": "I'd love to hear your ideas! Let's chat about how we can work together to make your vision a reality.",
   "email": "hello@anidesignit.com",
@@ -48,7 +48,24 @@
   "lottieAbout": "https://lottie.host/e9bb1186-c7f4-4181-8a73-bdff02f8440c/WCRkGPlthD.lottie",
   "lottieContact": "https://lottie.host/f0502aa7-ce50-45d1-9a35-31ec6d37a66a/HtfqISa9LC.lottie",
   "funFactHeading": "When I'm not designing?",
-  "funFactBody": "You'll probably find me making music or playing piano and guitar. \ud83c\udfb5",
-  "seoTitle": "Ana Maria Posada \u2014 Brand, Product & Web Designer in Vancouver, BC",
-  "seoDescription": "Ana Maria Posada \u2014 Brand, Product & Web Designer in Vancouver, BC. I design and build digital products, brands, and websites for entrepreneurs and growing businesses."
+  "funFactBody": "You'll probably find me making music or playing piano and guitar. 🎵",
+  "seoTitle": "Ana Maria Posada — Brand, Product & Web Designer in Vancouver, BC",
+  "seoDescription": "Ana Maria Posada — Brand, Product & Web Designer in Vancouver, BC. I design and build digital products, brands, and websites for entrepreneurs and growing businesses.",
+  "testimonials": [
+    {
+      "quote": "I had the pleasure of collaborating with Ana Maria at GHG Accounting and was consistently impressed by her multidisciplinary expertise and genuine passion for design, people, and communication.",
+      "name": "Clarice Piloto",
+      "role": "Director of Operations, GHG Accounting"
+    },
+    {
+      "quote": "A stand-out go-getter.",
+      "name": "Richard Pyra",
+      "role": "Associate Creative Director, Epic Games"
+    },
+    {
+      "quote": "Ana Maria's designs are wonderful and communication with her was very smooth. … I would recommend Ana Maria!",
+      "name": "Louise Lee",
+      "role": "Leadership & Executive Coach"
+    }
+  ]
 }

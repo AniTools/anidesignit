@@ -236,6 +236,18 @@ export default config({
             itemLabel: (props) => props.fields.label.value || 'Resume',
           }
         ),
+        testimonials: fields.array(
+          fields.object({
+            quote: fields.text({ label: 'Quote', multiline: true, validation: { isRequired: true } }),
+            name: fields.text({ label: 'Name', validation: { isRequired: true } }),
+            role: fields.text({ label: 'Role & company', description: 'e.g. "Director of Operations, GHG Accounting"' }),
+          }),
+          {
+            label: 'Recommendations',
+            description: 'Short quotes shown under your photo in About Me. 2–3 fit best. Leave empty to hide.',
+            itemLabel: (props) => props.fields.name.value || 'Recommendation',
+          }
+        ),
         reviewsUrl: fields.url({
           label: 'Reviews link',
           description:

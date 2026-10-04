@@ -23,6 +23,7 @@ const escapeHtml = (s: string) =>
 const boldify = (s: string) =>
   escapeHtml(s).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
 const resumes = copy.resumes.filter((r): r is { label: string; file: string } => Boolean(r.file));
+const linkedinUrl = copy.social.find((l) => l.icon === 'linkedin')?.href;
 const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
 const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
 
@@ -222,6 +223,7 @@ const toolsLine = (tools: string[]) => tools.slice(0, 4).join(' · ');
       <!-- ───────────────────────────  ABOUT ME  ─────────────────────────── -->
       <section class="section" id="about-me" data-section="3">
         <div class="wrap cols about-cols">
+          <div class="about-side">
           <div class="portrait-slot">
             <Lottie src={copy.lottieAbout} class="lottie-about" />
             <SmartImage
@@ -231,6 +233,27 @@ const toolsLine = (tools: string[]) => tools.slice(0, 4).join(' · ');
               widths={[240, 480]}
               sizes="(max-width: 768px) 52vw, 240px"
             />
+          </div>
+            {
+              copy.testimonials.length > 0 && (
+                <div class="kind-words reveal">
+                  {copy.testimonials.map((t) => (
+                    <figure class="kw">
+                      <blockquote>“{t.quote}”</blockquote>
+                      <figcaption>
+                        <strong>{t.name}</strong>
+                        {t.role && <span>{t.role}</span>}
+                      </figcaption>
+                    </figure>
+                  ))}
+                  {linkedinUrl && (
+                    <a href={linkedinUrl} target="_blank" rel="noreferrer" class="kw-more">
+                      More recommendations on LinkedIn →
+                    </a>
+                  )}
+                </div>
+              )
+            }
           </div>
           <div class="stack reveal about-stack">
             <SectionHeading
@@ -643,7 +666,14 @@ const toolsLine = (tools: string[]) => tools.slice(0, 4).join(' · ');
   .hero-cols { grid-template-columns: 1.05fr 0.95fr; }
   .work-cols { grid-template-columns: 1fr 1.05fr; align-items: stretch; min-height: 0; flex: 1; }
   .about-cols { grid-template-columns: 0.85fr 1.15fr; gap: var(--space-16); align-items: flex-start; }
-  .about-cols .portrait-slot { margin-top: 120px; }
+  .about-side { display: flex; flex-direction: column; align-items: center; gap: var(--space-6); margin-top: clamp(24px, 9vh, 120px); }
+  .kind-words { position: relative; z-index: 1; display: flex; flex-direction: column; gap: var(--space-4); max-width: 340px; width: 100%; }
+  .kw { margin: 0; padding-left: var(--space-4); border-left: 2px solid var(--coral-200); display: flex; flex-direction: column; gap: 6px; }
+  .kw blockquote { margin: 0; font-size: var(--text-body-sm); line-height: var(--leading-body); color: var(--text-body); }
+  .kw figcaption { display: flex; flex-direction: column; font-size: var(--text-caption); line-height: 1.4; }
+  .kw figcaption strong { color: var(--text-title); font-weight: 600; }
+  .kw figcaption span { color: var(--ink-500); }
+  .kw-more { font-size: var(--text-caption); font-weight: 600; color: var(--coral-500); padding-left: var(--space-4); }
   .about-stack { gap: var(--space-3); }
   .contact-cols { grid-template-columns: 1fr 1.1fr; gap: var(--space-16); }
   .form-cols { grid-template-columns: 1fr 1fr; gap: var(--space-5); }
@@ -1102,6 +1132,10 @@ const toolsLine = (tools: string[]) => tools.slice(0, 4).join(' · ');
       z-index: 45;
     }
     .rail-fixed :global(.ds-rail) { flex-direction: row; }
+    .about-side { display: contents; }
+    .about-cols .portrait-slot { order: 1; }
+    .about-cols .about-stack { order: 2; }
+    .about-cols .kind-words { order: 3; max-width: none; }
     :global(.portrait) { width: 52vw; max-width: 240px; margin: 0 auto; }
     :global(.lottie-about) { width: 68vw; height: 68vw; max-width: 320px; max-height: 320px; }
     :global(.lottie-contact) { width: 56vw; height: 44vw; max-width: 240px; }

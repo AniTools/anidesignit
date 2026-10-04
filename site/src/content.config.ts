@@ -59,6 +59,9 @@ const site = defineCollection({
     aboutTools: z.array(z.string()).default([]),
     portrait: z.string(),
     resumes: z.array(z.object({ label: z.string(), file: z.string().nullable() })).default([]),
+    testimonials: z
+      .array(z.object({ quote: z.string(), name: z.string(), role: z.string().default('') }))
+      .default([]),
     reviewsUrl: z.string().optional(),
     clients: z
       .array(z.object({ name: z.string(), logo: imageRef, href: z.string().optional() }))
