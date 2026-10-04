@@ -243,9 +243,9 @@ export default config({
             role: fields.text({ label: 'Role & company', description: 'e.g. "Director of Operations, GHG Accounting"' }),
           }),
           {
-            label: 'Recommendations',
-            description: 'Quotes shown in the "What people say" window opened from About Me. Leave empty to hide the button.',
-            itemLabel: (props) => props.fields.name.value || 'Recommendation',
+            label: 'Testimonials',
+            description: 'Quotes shown in the "Testimonials" window opened from About Me. Leave empty to hide the button.',
+            itemLabel: (props) => props.fields.name.value || 'Testimonial',
           }
         ),
         reviewsUrl: fields.url({
