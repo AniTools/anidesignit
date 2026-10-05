@@ -78,7 +78,7 @@ const toolsLine = (tools: string[]) => tools.slice(0, 4).join(' · ');
             <p class="lede" set:html={`${boldify(copy.heroSubtitle)} ${boldify(copy.heroBody)}`} />
             <div class="row">
               <Button variant="primary" icon="arrow-right" data-goto="1">Explore My Work</Button>
-              <Button variant="outline" href={copy.booking}>Book a call</Button>
+              <Button variant="outline" data-goto="4">Work with me</Button>
             </div>
           </div>
           <div class="center">
