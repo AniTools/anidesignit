@@ -385,14 +385,13 @@ const passwordHash =
 
   .hero-wrap { max-width: var(--max-content); margin: 0 auto; }
   .hero {
-    height: min(64vh, 620px);
     border-radius: var(--radius-xl);
     overflow: hidden;
     background: var(--blush-200);
     box-shadow: var(--shadow-md);
     animation: ani-scale-in var(--duration-slow) var(--ease-out) 120ms both;
   }
-  .hero :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .hero :global(img) { display: block; width: 100%; height: auto; }
 
   .body {
     display: grid;
@@ -751,7 +750,6 @@ const passwordHash =
   @media (max-width: 768px) {
     .pad { padding-left: 20px; padding-right: 20px; }
     .title { font-size: 2.4rem; }
-    .hero { height: 46vh; }
     .pair { grid-template-columns: 1fr; }
     .pair-card.is-next { text-align: left; }
     .lead { max-width: none; }
