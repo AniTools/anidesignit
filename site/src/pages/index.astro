@@ -309,9 +309,11 @@ const toolsLine = (tools: string[]) => tools.slice(0, 4).join(' · ');
               </header>
               <div class="recs-list">
                 {copy.testimonials.map((t) => (
-                  <figure class="rec">
+                  <figure class:list={['rec', t.quote.length > 300 && 'is-long']}>
                     <span class="rec-mark" aria-hidden="true">“</span>
-                    <blockquote>{t.quote}</blockquote>
+                    <blockquote>
+                      {t.quote.split(/\n\s*\n/).map((para) => <p>{para}</p>)}
+                    </blockquote>
                     <figcaption>
                       <span class="rec-avatar" aria-hidden="true">{initials(t.name)}</span>
                       <span class="rec-who">
@@ -1149,6 +1151,9 @@ const toolsLine = (tools: string[]) => tools.slice(0, 4).join(' · ');
     position: relative; margin: 0;
     font-family: var(--font-title); font-size: var(--text-h4); line-height: 1.45; color: var(--text-title);
   }
+  .rec blockquote p { margin: 0; }
+  .rec blockquote p + p { margin-top: var(--space-4); }
+  .rec.is-long blockquote { font-size: var(--text-body-lg); line-height: 1.6; }
   .rec figcaption { display: flex; align-items: center; gap: var(--space-3); }
   .rec-avatar {
     display: inline-flex; align-items: center; justify-content: center; flex: none;
