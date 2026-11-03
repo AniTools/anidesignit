@@ -22,8 +22,9 @@ const { id, title } = Astro.props;
 <style>
   .video {
     aspect-ratio: 16 / 9;
-    margin-left: 96px;
-    max-width: 100%;
+    width: 100%;
+    max-width: var(--measure-prose);
+    margin: var(--space-2) 0 var(--space-2) 96px;
     overflow: hidden;
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-sm);
