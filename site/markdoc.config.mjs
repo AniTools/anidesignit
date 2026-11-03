@@ -12,4 +12,14 @@ export default defineMarkdocConfig({
       render: component('./src/components/ProseImage.astro'),
     },
   },
+  tags: {
+    YouTube: {
+      selfClosing: true,
+      attributes: {
+        id: { type: String, required: true },
+        title: { type: String, required: true },
+      },
+      render: component('./src/components/YouTube.astro'),
+    },
+  },
 });

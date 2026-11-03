@@ -1,4 +1,5 @@
 import { config, fields, collection, singleton } from '@keystatic/core';
+import { block } from '@keystatic/core/content-components';
 
 /* Covers and gallery shots currently live on Firebase Storage and Cloudinary,
    so every image field accepts either an existing URL or a fresh upload rather
@@ -136,7 +137,26 @@ export default config({
         /* The body of the case study. Each top-level heading becomes one of the
            numbered coral chapters on the page — the numbering is automatic, so
            write “The Problem”, not “01 The Problem”. */
-        content: fields.markdoc({ label: 'Case study' }),
+        content: fields.markdoc({
+          label: 'Case study',
+          components: {
+            YouTube: block({
+              label: 'YouTube video',
+              schema: {
+                id: fields.text({
+                  label: 'Video ID',
+                  description: 'The part after v= in the YouTube link.',
+                  validation: { isRequired: true },
+                }),
+                title: fields.text({
+                  label: 'Title',
+                  description: 'Read aloud by screen readers.',
+                  validation: { isRequired: true },
+                }),
+              },
+            }),
+          },
+        }),
         testimonial: fields.object(
           {
             quote: fields.text({ label: 'Quote', multiline: true }),

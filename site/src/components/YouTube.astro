@@ -1,0 +1,36 @@
+---
+/* Case study video, added in Keystatic as the YouTube block. Uses the
+   privacy-enhanced player and loads it only when it scrolls near the view. */
+interface Props {
+  id: string;
+  title: string;
+}
+const { id, title } = Astro.props;
+---
+
+<div class="video">
+  <iframe
+    src={`https://www.youtube-nocookie.com/embed/${id}`}
+    title={title}
+    loading="lazy"
+    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    referrerpolicy="strict-origin-when-cross-origin"
+    allowfullscreen
+  ></iframe>
+</div>
+
+<style>
+  .video {
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    max-width: var(--measure-prose);
+    margin: var(--space-2) 0 var(--space-2) 96px;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+  }
+  .video iframe { display: block; width: 100%; height: 100%; border: 0; }
+  @media (max-width: 768px) {
+    .video { margin-left: 0; }
+  }
+</style>
